@@ -8,7 +8,5 @@ Software Engineering Fall 2017 Project by Dana, Peter, Megan, Jihyun
 You can read more about the project purpose in the [wiki](https://github.com/jihjihk/charlietable/wiki/).
 
 ## Mockups
-![alt text](https://raw.githubusercontent.com/jihjihk/charlietable/dining.png)
-![alt text](https://raw.githubusercontent.com/jihjihk/charlietable/signup.png)
-![alt text](https://raw.githubusercontent.com/jihjihk/charlietable/login.png)
-![alt text](https://raw.githubusercontent.com/jihjihk/charlietable/start.png)
+![Alt text](dining.png)
+
