@@ -29,7 +29,52 @@
                   "children": [
                     {
                       "type": "span",
-                      "text": "Click on me and start creating a new cool component."
+                      "text": "User Login Page",
+                      "props": {}
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "pageName": "Page6",
+      "pagePath": "/options",
+      "children": [
+        {
+          "type": "div",
+          "props": {
+            "style": {
+              "display": "flex",
+              "justifyContent": "center",
+              "alignItems": "center",
+              "padding": "1em"
+            }
+          },
+          "children": [
+            {
+              "type": "div",
+              "children": [
+                {
+                  "type": "h3",
+                  "props": {
+                    "style": {
+                      "padding": "1em",
+                      "textAlign": "center"
+                    }
+                  },
+                  "children": [
+                    {
+                      "type": "span",
+                      "text": "Click on me and start creating a new cool component.",
+                      "props": {
+                        "style": {
+                          "backgroundColor": "#b8e986"
+                        }
+                      }
                     }
                   ]
                 }
