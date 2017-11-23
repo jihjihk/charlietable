@@ -1,4 +1,10 @@
 {
   "name": "hicharlie",
-  "displayName": "hicharlie"
+  "displayName": "hicharlie",
+  "expo": {
+    "name": "hicharlie",
+    "slug": "hicharlie",
+    "sdkVersion": "23.0.0",
+    "privacy": "public"
+  }
 }
