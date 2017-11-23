@@ -1,8 +1,8 @@
 {
-  "expoServerNgrokUrl": null,
-  "packagerNgrokUrl": null,
-  "ngrokPid": null,
-  "expoServerPort": null,
-  "packagerPort": null,
-  "packagerPid": null
+  "expoServerNgrokUrl": "https://5k-mju.jihjihk.charlietable.exp.direct",
+  "packagerNgrokUrl": "https://packager.5k-mju.jihjihk.charlietable.exp.direct",
+  "ngrokPid": 61444,
+  "expoServerPort": 19000,
+  "packagerPort": 19001,
+  "packagerPid": 61416
 }

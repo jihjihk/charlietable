@@ -3,6 +3,7 @@ import store from './src/redux/store';
 import AppViewContainer from './src/modules/AppViewContainer';
 import React, {Component} from 'react';
 import 'expo';
+
 import {
   Alert,
   AppRegistry,
@@ -88,4 +89,4 @@ const styles = StyleSheet.create({
   }
 });
 
-AppRegistry.registerComponent('hicharlie', () => hicharlie);
+AppRegistry.registerComponent('main', () => hicharlie);
