@@ -46,6 +46,7 @@
     "react": "^16.1.1",
     "react-native": "0.50.3",
     "react-native-auth0": "^1.2.1",
+    "react-native-local-mongodb": "^1.8.2",
     "react-native-lock": "github:futurice/react-native-lock#feature/customizedTheme",
     "react-native-vector-icons": "^4.4.2",
     "react-native-web": "^0.1.14",

@@ -2,6 +2,7 @@ import {Provider} from 'react-redux';
 import store from './src/redux/store';
 import AppViewContainer from './src/modules/AppViewContainer';
 import React, {Component} from 'react';
+
 import {
   Alert,
   AppRegistry,
@@ -12,8 +13,12 @@ import {
   View
 } from 'react-native';
 import Auth0 from 'react-native-auth0';
+// import {Datastore} from 'react-native-local-mongodb';
 
 var credentials = require('./auth0-credentials');
+var Datastore = require('react-native-local-mongodb');
+var db = new Datastore({ filename: 'asyncStorageKey', autoload: true });
+
 const auth0 = new Auth0(credentials);
 //const auth0 = new Auth0({ domain: 'charlietable.auth0.com', clientId: 'ZfTfzLIi6jmr1y4kpPVdh8EkYUtQN10N' });
 
