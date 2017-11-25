@@ -27,8 +27,7 @@ export default class hicharlie extends Component {
   	}
 
 	_onLogin = () => {
-		auth0
-		.webAuth
+		auth0.webAuth
 		.authorize({
 			scope: 'openid profile',
 			audience: 'https://' + credentials.domain + '/userinfo'
