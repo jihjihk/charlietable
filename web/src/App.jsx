@@ -20,10 +20,10 @@ export default class App extends Component {
   constructor() {
     super();
     this.state = {
-      currentItem: '',
+      interest: '',
+      cuisine: '',
       username: '',
-      items: [],
-      user: null
+      items: []
     }
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -110,7 +110,7 @@ export default class App extends Component {
           <Container>
             <Menu fixed='top' size='large'>
               <Menu.Item as='home' active>Home</Menu.Item>
-              <Menu.Item as='explore'>Explore</Menu.Item>
+              <Menu.Item as='events'>Explore</Menu.Item>
               <Menu.Item as='messages'>Messages</Menu.Item>
               
                 {this.state.user ?
@@ -132,10 +132,6 @@ export default class App extends Component {
                       :
                       <Button as='login' onClick={this.login}>Log In</Button>              
                     }
-                </Menu.Item>
-
-                <Menu.Item>
-                  <Button as='signup' primary>Sign Up</Button>
                 </Menu.Item>
               </Menu.Menu>
           </Menu>
@@ -184,7 +180,6 @@ export default class App extends Component {
                               <h3>{item.user}</h3>
                               <p>likes {item.cuisine} food</p>
                               <p>and is interested in {item.interest}
-
                                  {item.user === this.state.user.displayName || item.user === this.state.user.email ?
                                    <button onClick={() => this.removeItem(item.id)}>Remove Item</button> : null}
                               </p>
