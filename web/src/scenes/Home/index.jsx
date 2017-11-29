@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import logo from './logo.svg';
 import './style.css';
-import firebase, { auth, provider } from './firebase.js';
+import firebase, { auth, provider } from '../../services/firebase.js';
 import {
   Button,
   Container,
