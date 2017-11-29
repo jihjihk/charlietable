@@ -16,4 +16,6 @@ import {
 } from 'semantic-ui-react'
 
 export default class Profile extends Component {
+ 
+  
 }
