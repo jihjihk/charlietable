@@ -16,7 +16,7 @@ import {
   Visibility,
 } from 'semantic-ui-react'
 
-class Home extends Component {
+export default class Home extends Component {
   constructor() {
     super();
     this.state = {

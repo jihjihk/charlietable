@@ -9,7 +9,7 @@ import Dining from './scenes/Dining'
 export default class App extends Component {
   render() {
     return (
-      <Dining />
+      <Home />
     );
   }
 }
