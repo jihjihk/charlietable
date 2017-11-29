@@ -16,7 +16,7 @@ import {
   Visibility,
 } from 'semantic-ui-react'
 
-export default class Home extends Component {
+class Home extends Component {
   constructor() {
     super();
     this.state = {
@@ -45,7 +45,7 @@ export default class Home extends Component {
   }
 
   login = () => {
-    auth.signInWithPopup(provider) 
+    auth.signInWithPopup(provider)
     .then((result) => {
       const user = result.user;
       this.setState({
@@ -72,7 +72,7 @@ export default class Home extends Component {
     auth.onAuthStateChanged((user) => {
       if (user) {
         this.setState({ user });
-      } 
+      }
     });
 
     const itemsRef = firebase.database().ref('items');
@@ -112,7 +112,7 @@ export default class Home extends Component {
               <Menu.Item as='home' active>Home</Menu.Item>
               <Menu.Item as='events'>Explore</Menu.Item>
               <Menu.Item as='messages'>Messages</Menu.Item>
-              
+
                 {this.state.user ?
                   <Menu.Item as='mypage'>
                       <Image src={this.state.user.photoURL} size='mini' circular />
@@ -124,13 +124,13 @@ export default class Home extends Component {
                   </Menu.Item>
                 }
               }
-          
+
               <Menu.Menu position='right'>
                 <Menu.Item className='item'>
                   {this.state.user ?
-                      <Button as='logout' onClick={this.logout}>Log Out</Button>                
+                      <Button as='logout' onClick={this.logout}>Log Out</Button>
                       :
-                      <Button as='login' onClick={this.login}>Log In</Button>              
+                      <Button as='login' onClick={this.login}>Log In</Button>
                     }
                 </Menu.Item>
               </Menu.Menu>
@@ -167,7 +167,7 @@ export default class Home extends Component {
                     <input type="text" name="username" placeholder="What's your name?" onChange={this.handleChange} value={this.state.username} />
                     <input type="text" name="cuisine" placeholder="What cuisine do you like?" onChange={this.handleChange} value={this.state.cuisine} />
                     <input type="text" name="interest" placeholder="What are you interested in?" onChange={this.handleChange} value={this.state.interest} />
-                    
+
                     <button>Tell us</button>
                   </form>
                 </section>

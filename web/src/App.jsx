@@ -4,11 +4,12 @@ import React, { Component } from 'react';
 
 import './index.css';
 import Home from './scenes/Home';
+import Dining from './scenes/Dining'
 
 export default class App extends Component {
   render() {
     return (
-      <Home />
+      <Dining />
     );
   }
 }
