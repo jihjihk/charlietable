@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
-import './style.css';
+import ReactDOM from 'react-dom';
+import App from './App';
+import './index.css';
 import firebase, { auth, provider } from '../../services/firebase.js';
 import {
   Button,
@@ -19,3 +21,8 @@ export default class Profile extends Component {
  
   
 }
+
+ReactDOM.render(
+  <App />,
+  document.getElementById('root')
+);

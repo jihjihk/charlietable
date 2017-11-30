@@ -1,12 +1,15 @@
+
 import React, { Component } from 'react';
 import * as Survey from 'survey-react';
 import 'survey-react/survey.css';
-import QuestionnaireEditor from './QuestionnaireEditor';
+import SurveyEditor from './SurveyEditor';
+import logo from './logo.svg';
+import './App.css';
+import 'bootstrap/dist/css/bootstrap.css';
 
 
 class App extends Component {
-   createJSON(){
-    json = { title: 'Product Feedback Survey Example', showProgressBar: 'top', pages: [
+    json = { title: 'Create your profile!', showProgressBar: 'top', pages: [
       {
         questions: [{
             type: 'matrix',
@@ -93,17 +96,14 @@ class App extends Component {
         }]
       }]
   };
-   }
+   
    
    render() {
     Survey.Survey.cssType = "bootstrap";
     var model = new Survey.Model(this.json);
     return (
       <div className="App">
-        <div className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <h2>Welcome to React with SurveyJS</h2>
-        </div>
+      
         <div className="surveyjs">
           {/*If you want to show survey, uncomment the line below*/}
           <Survey.Survey model={model}/>
