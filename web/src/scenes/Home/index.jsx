@@ -26,16 +26,21 @@ export default class Home extends Component {
         >
           <Container>
             <Menu fixed='top' size='large'>
-              <Menu.Item as='home' active><Link to="/">Home</Link></Menu.Item>
-              <Menu.Item as='events'><Link to="/dining">Explore</Link></Menu.Item>
-              <Menu.Item as='messages'>Messages</Menu.Item>
+              <Link to="/"><Menu.Item as='home' active>Home</Menu.Item></Link>
+              <Link to="/dining"><Menu.Item as='events'>Explore</Menu.Item></Link>
+              <Link to="/newevent"><Menu.Item as='newevent'>Create Event</Menu.Item></Link>
+              <Link to="/"><Menu.Item as='messages'>Messages</Menu.Item></Link>
 
                 {this.state.user ?
+                   <Link to ="/profile">
                   <Menu.Item as='mypage'>
+                   
                       <Image src={this.state.user.photoURL} size='mini' circular />
                       &nbsp;{this.state.user.displayName}
                       <Menu.Item as='events'><Link to="/Profile/src"> My profile</Link></Menu.Item>
                   </Menu.Item>
+                    </Link>
+                   
                   :
                   <Menu.Item as='mypage'>
                     My Page

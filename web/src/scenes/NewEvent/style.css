@@ -63,16 +63,17 @@ header i {
   margin: 0 auto;
 }
 
-.add-item {
-  border-radius: 2px;
-  border-top: 3px solid #103D5D;
+
+.createEventInput {
+  text-align: center;
   margin-right: 50px;
   background-color: rgb(237, 237, 237);
   padding: 60px 18px;
   box-shadow: 0 3px 4px 0 rgba(0,0,0,.14), 0 3px 3px -2px rgba(0,0,0,.12), 0 1px 8px 0 rgba(0,0,0,.2);
   margin-bottom: 34px;  
-  width: 25%;
+  width: 100%;
   margin-right: auto;
+
 }
 
 .display-item {
@@ -90,6 +91,7 @@ header i {
   width: 100%;
   overflow: hidden;
 }
+
 
 input {
   font-size: 22px;
