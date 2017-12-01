@@ -17,7 +17,7 @@ import {
 } from 'semantic-ui-react'
 
 
-class Dining extends Component{
+export default class Dining extends Component{
   constructor() {
     super();
     this.state = {
