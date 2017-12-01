@@ -77,15 +77,14 @@ export default class Home extends Component {
           </Link>
         </Container>
       </Segment>
->>>>>>> 2ab1e00e5331d58030758a8811957acf77095993
 
-        <Segment style={{ padding: '8em 0em' }} vertical>
-          <Container>
-            <h2>Some Sample Events
-            </h2>
-          </Container>
-        </Segment>
-      </div>
+      <Segment style={{ padding: '8em 0em' }} vertical>
+        <Container>
+          <h2>Some Sample Events
+          </h2>
+        </Container>
+      </Segment>
+    </div>
     )
   }
 }
