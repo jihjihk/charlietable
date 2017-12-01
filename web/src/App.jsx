@@ -22,7 +22,7 @@ import Profile from './scenes/Profile'
 
 
 
-//before, this just reterned <Home />
+//before, this just returned <Home />
 export default class App extends Component {
   render() {
     return (

@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import logo from './logo.svg';
 import './style.css';
+
 //import firebase, { auth, provider } from './firebase.js';
 import {
   Button,
@@ -85,28 +86,28 @@ export default class Dining extends Component{
             <Grid columns={4} divided>
               <Grid.Row>
                 <Grid.Column>
-                  <Image src='/Images/salad.png' size='medium' style={{ marginTop: '2em' }} />
+                  <Image href='./Images/salad.png' size='medium' style={{ marginTop: '2em' }} />
                   <Button primary size='medium'>
                     RSVP
                     <Icon name='right arrow' />
                   </Button>
                 </Grid.Column>
                 <Grid.Column>
-                  <Image src='/Images/hamburger.png' size='medium' style={{ marginTop: '2em' }} />
+                  <Image href='./Images/hamburger.png' size='medium' style={{ marginTop: '2em' }} />
                   <Button primary size='medium'>
                     RSVP
                     <Icon name='right arrow' />
                   </Button>
                 </Grid.Column>
                 <Grid.Column>
-                  <Image src='/Images/strawberry.png' size='medium' style={{ marginTop: '2em' }} />
+                  <Image href='./Images/strawberry.png' size='medium' style={{ marginTop: '2em' }} />
                   <Button primary size='medium'>
                     RSVP
                     <Icon name='right arrow' />
                   </Button>
                 </Grid.Column>
                 <Grid.Column>
-                  <Image src='/Images/salad.png' size='medium' style={{ marginTop: '2em' }} />
+                  <Image href='./Images/salad.png' size='medium' style={{ marginTop: '2em' }} />
                   <Button primary size='medium'>
                     RSVP
                     <Icon name='right arrow' />

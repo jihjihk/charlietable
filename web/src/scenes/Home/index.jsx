@@ -4,12 +4,6 @@ import './style.css';
 import firebase, { auth, provider } from '../../services/firebase.js';
 
 import {
-  BrowserRouter as Router,
-  Route,
-  Link
-} from 'react-router-dom'
-
-import {
   Button,
   Container,
   Divider,
@@ -22,6 +16,12 @@ import {
   Segment,
   Visibility,
 } from 'semantic-ui-react'
+import {
+  BrowserRouter as Router,
+  Route,
+  Link,
+  NavLink
+} from 'react-router-dom'
 
 export default class Home extends Component {
   constructor() {
@@ -158,10 +158,12 @@ export default class Home extends Component {
             inverted
             style={{ fontSize: '1.7em', fontWeight: 'normal' }}
           />
-          <Button primary size='huge'>
-            Find Dinners
-            <Icon name='right arrow' />
-          </Button>
+          <Link to="/Dining">
+            <Button primary size='huge'>
+              Find Dinners
+              <Icon name='right arrow' />
+            </Button>
+          </Link>
         </Container>
       </Segment>
 
