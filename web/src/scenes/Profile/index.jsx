@@ -21,8 +21,3 @@ export default class Profile extends Component {
  
   
 }
-
-ReactDOM.render(
-  <App />,
-  document.getElementById('root')
-);
