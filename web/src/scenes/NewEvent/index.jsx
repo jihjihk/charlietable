@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import './style.css';
-import firebase, { auth, provider } from '../../services/firebase.js';
+import firebase from 'firebase'
+
+import { ref, auth, provider } from '../../services/firebase.js';
 import {
   Button,
   Container,
@@ -74,7 +76,6 @@ export default class NewEvent extends Component {
     eventsRef.push(event);
 
     this.setState({
-     
       eventName : '',
       participants: '',
       time: '',

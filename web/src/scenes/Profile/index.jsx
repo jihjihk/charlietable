@@ -2,10 +2,10 @@
 import React, { Component } from 'react';
 import * as Survey from 'survey-react';
 import 'survey-react/survey.css';
-import SurveyEditor from './SurveyEditor';
-import logo from './logo.svg';
-import './index.css';
-import 'bootstrap/dist/css/bootstrap.css';
+// import SurveyEditor from './SurveyEditor';
+// import logo from './logo.svg';
+// import './index.css';
+// import 'bootstrap/dist/css/bootstrap.css';
 
 
 class Profile extends Component {
