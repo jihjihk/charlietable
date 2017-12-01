@@ -17,6 +17,8 @@ import {
 import './index.css';
 import Home from './scenes/Home';
 import Dining from './scenes/Dining';
+// import NewEvent from './scenes/NewEvent // <Route path="/newevent" component={NewEvent}/>
+
 
 
 //before, this just returned <Home />
@@ -26,7 +28,7 @@ export default class App extends Component {
     	 <Router>
 		    <div>
 		      <Route exact path="/" component={Home}/>
-		      <Route path="/Dining" component={Dining}/>
+		      <Route path="/dining" component={Dining}/>
 		    </div>
 		</Router>
     );
