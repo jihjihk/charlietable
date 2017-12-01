@@ -124,6 +124,7 @@ export default class Home extends Component {
                   <Menu.Item as='mypage'>
                       <Image src={this.state.user.photoURL} size='mini' circular />
                       &nbsp;{this.state.user.displayName}
+                      <Menu.Item as='events'><Link to="/Profile"> My profile</Link></Menu.Item>
                   </Menu.Item>
                   :
                   <Menu.Item as='mypage'>

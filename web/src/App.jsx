@@ -17,7 +17,7 @@ import {
 import './index.css';
 import Home from './scenes/Home';
 import Dining from './scenes/Dining';
-import Profile from './scenes/Profile'
+import Profile from './scenes/Profile';
 // import NewEvent from './scenes/NewEvent // <Route path="/newevent" component={NewEvent}/>
 
 
