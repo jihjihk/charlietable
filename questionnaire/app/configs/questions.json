@@ -1,0 +1,38 @@
+{
+  "skippable":[1],
+  "all":[{"id":1,"type":"small-text-input","question":"Name:"},
+          {"id":2,"type":"small-text-input","question":"Age:"},
+            {"id":3,"type":"small-text-input","question":"Location:"},
+              {"id":4,"type":"small-multiple-options","question":"What cuisine would you prefer to eat?",
+                "options":[{"id":1,"description":"Italian","selected":false},
+                  {"id":2,"description":"Indian","selected":false},
+                  {"id":3,"description":"Chinese","selected":false},
+                  {"id":4,"description":"Arabic","selected":false},
+                  {"id":5,"description":"Korean","selected":false},
+                  {"id":6,"description":"American","selected":false}]},
+                {"id":5,"type":"small-text-input","question":"Languages you speak:"},
+                 {"id":6,"type":"small-multiple-options","question":"What time would you prefer to have dinner?",
+                "options":[{"id":1,"description":"before 6 pm","selected":false},
+                  {"id":2,"description":"6 pm","selected":false},
+                  {"id":3,"description":"7 pm","selected":false},
+                  {"id":4,"description":"8 pm","selected":false},
+                  {"id":5,"description":"9 pm","selected":false},
+                  {"id":6,"description":"after 9 pm","selected":false}]},
+                {"id":7,"type":"small-text-input","question":"What do you do in your free time?"},
+                {"id":8,"type":"small-text-input","question":"What are you interested in talking about?"},
+                {"id":9,"type":"small-text-input","question":"What industry do you work for?"},
+                {"id":10,"type":"small-text-input","question":"What organizations are you part of?"},
+                {"id":11,"type":"small-text-input","question":"What are your political leanings?"}
+                  {"id":12,"type":"small-unique-options","question":"Gender:",
+                    "options":[{"id":1,"description":"Male","selected":false},
+                      {"id":2,"description":"Female","selected":false}]}],
+           }
+  "configs":{"welcome":"Hi! Please fill out the following questionnaire so we can match you with great company!",
+             "tip":"Please answer as truthfully as possible",
+             "closingmessage":"Thank you so much!",
+             "closingtip":"Questionnaire complete!",
+             "tooltip":"You must answer to continue.",
+             "waitmessage":"Hold on, we are trying to send your responses."
+           },
+  "posturl": "http://your-url-goes-here"
+}
