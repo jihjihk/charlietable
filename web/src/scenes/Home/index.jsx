@@ -4,12 +4,6 @@ import './style.css';
 import firebase, { auth, provider } from '../../services/firebase.js';
 
 import {
-  BrowserRouter as Router,
-  Route,
-  Link
-} from 'react-router-dom'
-
-import {
   Button,
   Container,
   Divider,
