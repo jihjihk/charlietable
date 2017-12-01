@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import './style.css';
-import firebase, { auth, provider } from './firebase.js';
+import firebase, { auth, provider } from '../../services/firebase.js';
 import {
   Button,
   Container,
@@ -15,16 +15,17 @@ import {
   Visibility,
 } from 'semantic-ui-react'
 
-
 export default class NewEvent extends Component {
   constructor() {
     super();
+
     this.state = {
       interest: '',
       cuisine: '',
       username: '',
       items: []
     }
+
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
     //this.login = this.login.bind(this);
@@ -58,23 +59,30 @@ export default class NewEvent extends Component {
 
   handleSubmit(e) {
     e.preventDefault();
-    const itemsRef = firebase.database().ref('items');
-    
-    const item = {
+    const eventsRef = firebase.database().ref('events');
+
+    const event = {
 
       eventName : this.state.eventName,
-      participants: [this.state.username]
-      interest: this.state.interest,
+      participants: [this.state.username],
+      time: this.state.time,
+      location: this.state.location,
       cuisine: this.state.cuisine,
-      user: this.state.username
-    
+      creator: this.state.username
     }
-    itemsRef.push(item);
+
+    eventsRef.push(event);
+
     this.setState({
-      interest: '',
+     
+      eventName : '',
+      participants: '',
+      time: '',
+      location: '',
       cuisine: '',
-      username: ''
+      creator: ''
     });
+
   }
   componentDidMount() {
     auth.onAuthStateChanged((user) => {
@@ -83,28 +91,25 @@ export default class NewEvent extends Component {
       }
     });
 
-    const itemsRef = firebase.database().ref('items');
+    const eventsRef = firebase.database().ref('events');
 
-    itemsRef.on('value', (snapshot) => {
-      let items = snapshot.val();
-      let newState = [];
-      for (let item in items) {
-        newState.push({
-          log: item,
-          interest: items[item].interest,
-          cuisine: items[item].cuisine,
-          user: items[item].user
-        });
-      }
-      this.setState({
-        items: newState
-      });
-    });
+    // eventsRef.on('value', (snapshot) => {
+    //   let events = snapshot.val();
+    //   let newState = [];
+    //   for (let event in events) {
+    //     newState.push({
+    //       log: event,
+    //       interest: events[event].interest,
+    //       cuisine: events[event].cuisine,
+    //       user: events[event].user
+    //     });
+    //   }
+    //   this.setState({
+    //     items: newState
+    //   });
+    // });
   }
-  removeItem(itemId) {
-    const itemRef = firebase.database().ref(`/items/${itemId}`);
-    itemRef.remove();
-  }
+  
   render() {
 
     return (
