@@ -1,40 +1,15 @@
+
 import React, { Component } from 'react';
-import logo from './logo.svg';
-//import ReactDOM from 'react-dom';
-//import App from './App';
-import './index.css';
 import * as Survey from 'survey-react';
 import 'survey-react/survey.css';
-//import firebase, { auth, provider } from '../../services/firebase.js';
+import SurveyEditor from './SurveyEditor';
+import logo from './logo.svg';
+import './index.css';
+import 'bootstrap/dist/css/bootstrap.css';
 
-// import './index.css';
-import firebase, { auth, provider } from '../../services/firebase.js';
-import {
-  Button,
-  Container,
-  Divider,
-  Grid,
-  Header,
-  Icon,
-  Image,
-  List,
-  Menu,
-  Segment,
-  Visibility,
-} from 'semantic-ui-react'
 
-export default class Profile extends Component {
-  constructor() {
-    super();
-    this.state = {
-      interest: '',
-      cuisine: '',
-      username: '',
-      items: []
-    }
-  }
- 
-json = { title: 'Create your profile!', showProgressBar: 'top', pages: [
+class Profile extends Component {
+    json = { title: 'Create your profile!', showProgressBar: 'top', pages: [
       {
         questions: [{
             type: 'matrix',
@@ -127,16 +102,19 @@ json = { title: 'Create your profile!', showProgressBar: 'top', pages: [
     Survey.Survey.cssType = "bootstrap";
     var model = new Survey.Model(this.json);
     return (
-      <div className="App">
+      <div className="Profile">
       
         <div className="surveyjs">
           {/*If you want to show survey, uncomment the line below*/}
           <Survey.Survey model={model}/>
-          
+          {/*If you want to show survey editor, uncomment the line below*/}
           {/*<SurveyEditor />*/}
         </div>
-      
+       
       </div>
     );
   }
 }
+
+export default Profile;
+
