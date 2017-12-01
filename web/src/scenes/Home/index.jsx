@@ -127,7 +127,7 @@ export default class Home extends Component {
                    
                       <Image src={this.state.user.photoURL} size='mini' circular />
                       &nbsp;{this.state.user.displayName}
-                   
+                      <Menu.Item as='events'><Link to="/Profile/src"> My profile</Link></Menu.Item>
                   </Menu.Item>
                     </Link>
                    
