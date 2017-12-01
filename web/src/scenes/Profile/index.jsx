@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 import App from './App';
-import './index.css';
+// import './index.css';
 import firebase, { auth, provider } from '../../services/firebase.js';
 import {
   Button,
