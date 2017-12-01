@@ -59,6 +59,7 @@ export default class NewEvent extends Component {
   handleSubmit(e) {
     e.preventDefault();
     const itemsRef = firebase.database().ref('items');
+    
     const item = {
 
       eventName : this.state.eventName,

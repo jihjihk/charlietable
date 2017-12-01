@@ -2,6 +2,13 @@ import React, { Component } from 'react';
 import logo from './logo.svg';
 import './style.css';
 import firebase, { auth, provider } from '../../services/firebase.js';
+
+import {
+  BrowserRouter as Router,
+  Route,
+  Link
+} from 'react-router-dom'
+
 import {
   Button,
   Container,
@@ -109,8 +116,8 @@ export default class Home extends Component {
         >
           <Container>
             <Menu fixed='top' size='large'>
-              <Menu.Item as='home' active>Home</Menu.Item>
-              <Menu.Item as='events'>Explore</Menu.Item>
+              <Menu.Item as='home' active><Link to="/">Home</Link></Menu.Item>
+              <Menu.Item as='events'><Link to="/dining">Explore</Link></Menu.Item>
               <Menu.Item as='messages'>Messages</Menu.Item>
 
                 {this.state.user ?

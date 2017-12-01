@@ -8,7 +8,7 @@ import './index.css';
 //added as part of routing schema
 //-----------------------------------------//
 // import { Provider } from 'react-redux'
-import {BrowserRouter} from 'react-router-dom';
+// import {BrowserRouter} from 'react-router-dom';
 
 // import { ConnectedRouter } from 'react-router-redux'
 // import store, { history } from './store'
@@ -18,17 +18,9 @@ import App from './App';
 import registerServiceWorker from './registerServiceWorker';
 import 'semantic-ui-css/semantic.min.css';
 
-// ReactDOM.render(
-
-// 	<App />,
-	// document.getElementById('root')
-// );
-
 
 ReactDOM.render((
-
     <App/>
-
 ), document.getElementById('root')
 );
 
