@@ -35,6 +35,7 @@ export default class NewEvent extends Component {
   }
 
   handleChange(e) {
+
     this.setState({
       [e.target.name]: e.target.value
     });
@@ -62,15 +63,19 @@ export default class NewEvent extends Component {
   handleSubmit(e) {
     e.preventDefault();
     const eventsRef = firebase.database().ref('events');
+    const user = firebase.auth().currentUser;
+    console.log(user);
+    if(user){
+
 
     const event = {
 
       eventName : this.state.eventName,
-      participants: [this.state.username],
+      participants: [user.G],
       time: this.state.time,
       location: this.state.location,
       cuisine: this.state.cuisine,
-      creator: this.state.username
+      creator: user.G
     }
 
     eventsRef.push(event);
@@ -83,6 +88,10 @@ export default class NewEvent extends Component {
       cuisine: '',
       creator: ''
     });
+
+    }else{
+        alert("please first login");
+    }
 
   }
   componentDidMount() {
@@ -149,12 +158,15 @@ export default class NewEvent extends Component {
           <Container>
             <div style={{ background: '#fff', padding: 24, minHeight: 280 }}>
               <div className='container'>
+
                 <section className='createEventInput'>
+
                   <form onSubmit={this.handleSubmit}>
                     <input type="text" name="eventName" placeholder="Name this event" onChange={this.handleChange} value={this.state.eventName} />
                     <input type="text" name="cuisine" placeholder="What cuisine do you like?" onChange={this.handleChange} value={this.state.cuisine} />
-                    <input type="text" name="location" placeholder="Where do you want to host this event?" onChange={this.handleChange} value={this.state.location} />                      <input type="text" name="interest" placeholder="What are you interested in?" onChange={this.handleChange} value={this.state.interest} />
+                    <input type="text" name="location" placeholder="Where do you want to host this event?" onChange={this.handleChange} value={this.state.location} />                      
                     <input type="text" name="time" placeholder="When do you wanna host this event?" onChange={this.handleChange} value={this.state.time} />
+                    <input type="hidden" name="username" onChange={this.handleChange} value={this.state.username} />
                     <button>Create Event</button>
                   </form>
 
