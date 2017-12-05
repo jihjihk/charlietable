@@ -144,7 +144,7 @@ export default class App extends Component {
           <Route authed={this.state.authed} user={this.state.user} path="/dining" component={Dining} />
           <Route authed={this.state.authed} user={this.state.user} path='/profile' component={Profile} />
           <Route authed={this.state.authed} user={this.state.user} path='/newevent' component={NewEvent} />
-          <Route render={() => <h3>No Match</h3>} />
+          <Route render={() => <Segment><Container><h3>No Match</h3></Container></Segment>} />
         </Switch>
       </div>
     </Router>
