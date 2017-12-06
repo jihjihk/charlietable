@@ -2,6 +2,12 @@ import React, { Component } from 'react';
 import './style.css';
 import firebase from 'firebase'
 
+import DatePicker from 'react-datepicker';
+import moment from 'moment';
+
+import 'react-datepicker/dist/react-datepicker.css';
+
+
 import { ref, auth, provider } from '../../services/firebase.js';
 import {
   Button,
@@ -25,69 +31,58 @@ export default class NewEvent extends Component {
       interest: '',
       cuisine: '',
       username: '',
-      items: []
+      items: [],
+      startDate: moment()
     }
 
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
-    //this.login = this.login.bind(this);
-    //this.logout = this.logout.bind(this);
   }
 
+ 
   handleChange(e) {
+  if(e._isAMomentObject){
+    this.setState({startDate: e});
+  }else{
+     this.setState({
+          [e.target.name]: e.target.value
+        });
 
-    this.setState({
-      [e.target.name]: e.target.value
-    });
   }
-
-  logout = () => {
-    auth.signOut().then(() => {
-      this.setState({
-        user: null
-      });
-    });
-  }
-
-  login = () => {
-    auth.signInWithPopup(provider)
-    .then((result) => {
-      const user = result.user;
-      this.setState({
-        user
-      });
-    });
+   
   }
 
 
   handleSubmit(e) {
     e.preventDefault();
     const eventsRef = firebase.database().ref('events');
+   
     const user = firebase.auth().currentUser;
     console.log(user);
     if(user){
 
 
-    const event = {
+      const event = {
 
-      eventName : this.state.eventName,
-      participants: [user.G],
-      time: this.state.time,
-      location: this.state.location,
-      cuisine: this.state.cuisine,
-      creator: user.G
-    }
+        eventName : this.state.eventName,
+        participants: [user.G],
+        time: this.state.time,
+        location: this.state.location,
+        cuisine: this.state.cuisine,
+        creator: user.G
 
-    eventsRef.push(event);
+      }
 
-    this.setState({
-      eventName : '',
-      participants: '',
-      time: '',
-      location: '',
-      cuisine: '',
-      creator: ''
-    });
+      eventsRef.push(event);
+
+      this.setState({
+        eventName : '',
+        participants: '',
+        time: moment(),
+        location: '',
+        cuisine: '',
+        creator: ''
+      });
 
     }else{
         alert("please first login");
@@ -124,36 +119,6 @@ export default class NewEvent extends Component {
 
     return (
       <div>
-          <Container>
-            <Menu fixed='top' size='large'>
-              <Menu.Item as='home' active>Home</Menu.Item>
-              <Menu.Item as='events'>Explore</Menu.Item>
-              <Menu.Item as='messages'>Messages</Menu.Item>
-
-                {this.state.user ?
-                  <Menu.Item as='mypage'>
-                      <Image src={this.state.user.photoURL} size='mini' circular />
-                      &nbsp;{this.state.user.displayName}
-                  </Menu.Item>
-                  :
-                  <Menu.Item as='mypage'>
-                    My Page
-                  </Menu.Item>
-                }
-              
-
-              <Menu.Menu position='right'>
-                <Menu.Item className='item'>
-                  {this.state.user ?
-                    <Button as='logout' onClick={this.logout}>Log Out</Button>
-                    :
-                    <Button as='login' onClick={this.login}>Log In</Button>
-                  }
-                </Menu.Item>
-              </Menu.Menu>
-          </Menu>
-        </Container>
-
         <Segment style={{ padding: '8em 0em' }} vertical>
           <Container>
             <div style={{ background: '#fff', padding: 24, minHeight: 280 }}>
@@ -167,6 +132,14 @@ export default class NewEvent extends Component {
                     <input type="text" name="location" placeholder="Where do you want to host this event?" onChange={this.handleChange} value={this.state.location} />                      
                     <input type="text" name="time" placeholder="When do you wanna host this event?" onChange={this.handleChange} value={this.state.time} />
                     <input type="hidden" name="username" onChange={this.handleChange} value={this.state.username} />
+                    <DatePicker
+                        selected={this.state.startDate}
+                        onChange={this.handleChange}
+                        showTimeSelect
+                        timeFormat="HH:mm"
+                        timeIntervals={15}
+                        dateFormat="LLL"
+                    />
                     <button>Create Event</button>
                   </form>
 

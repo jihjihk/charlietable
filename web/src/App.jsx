@@ -36,7 +36,7 @@ function PrivateRoute ({component: Component, authed, ...rest}) {
       {...rest}
       render={(props) => authed === true
         ? <Component {...props} />
-        : <Redirect to={{pathname: '/login', state: {from: props.location}}} />}
+        : <Redirect to={{pathname: '/', state: {from: props.location}}} />}
     />
   )
 }
@@ -141,9 +141,9 @@ export default class App extends Component {
         
         <Switch>
           <Route path='/' exact component={Home} />
-          <Route authed={this.state.authed} user={this.state.user} path="/dining" component={Dining} />
-          <Route authed={this.state.authed} user={this.state.user} path='/profile' component={Profile} />
-          <Route authed={this.state.authed} user={this.state.user} path='/newevent' component={NewEvent} />
+          <PrivateRoute authed={this.state.authed} user={this.state.user} path="/dining" component={Dining} />
+          <PrivateRoute authed={this.state.authed} user={this.state.user} path='/profile' component={Profile} />
+          <PrivateRoute authed={this.state.authed} user={this.state.user} path='/newevent' component={NewEvent} />
           <Route render={() => <Segment><Container><h3>No Match</h3></Container></Segment>} />
         </Switch>
       </div>

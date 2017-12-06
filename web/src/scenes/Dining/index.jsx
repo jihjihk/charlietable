@@ -20,9 +20,9 @@ import {
 export default class Dining extends Component{
   constructor() {
     super();
-    this.state = {
-      user: user
-    }
+    // this.state = {
+    //   user: user
+    // }
   }
 
     render(){
