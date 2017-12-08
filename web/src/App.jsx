@@ -30,7 +30,7 @@ import NewEvent from './scenes/NewEvent';
 import firebase, { auth, ref, provider } from './services/firebase.js';
 // import NewEvent from './scenes/NewEvent // <Route path="/newevent" component={NewEvent}/>
 
-function PrivateRoute ({component: Component, authed, ...rest}) {
+function PrivateRoute ({component: Component, user, authed, ...rest}) {
   return (
     <Route
       {...rest}
@@ -41,7 +41,7 @@ function PrivateRoute ({component: Component, authed, ...rest}) {
   )
 }
 
-function PublicRoute ({component: Component, authed, ...rest}) {
+function PublicRoute ({component: Component, user, authed, ...rest}) {
   return (
     <Route
       {...rest}
@@ -113,6 +113,7 @@ export default class App extends Component {
                 <Menu.Menu position='right'>
                   <Menu.Item as='home' active><Link to="/">Home</Link></Menu.Item>
                   <Menu.Item as='dining'><Link to="/dining">Explore</Link></Menu.Item>
+                  <Menu.Item as='newevent'><Link to="/newevent">Organize</Link></Menu.Item>
                   <Menu.Item as='messages'>Messages</Menu.Item>
                     {this.state.user ?
                         <Menu.Item as='profile'><Link to="/profile">

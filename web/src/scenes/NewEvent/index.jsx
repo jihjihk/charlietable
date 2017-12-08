@@ -7,6 +7,8 @@ import moment from 'moment';
 
 import 'react-datepicker/dist/react-datepicker.css';
 
+import Select from 'react-select';
+import 'react-select/dist/react-select.css';
 
 import { ref, auth, provider } from '../../services/firebase.js';
 import {
@@ -21,66 +23,72 @@ import {
   Menu,
   Segment,
   Visibility,
+  Form
 } from 'semantic-ui-react'
+
+import InterestMultiSelect from '../../components/Select/InterestMultiSelect.js'
 
 export default class NewEvent extends Component {
   constructor() {
-    super();
-
+    super()
     this.state = {
-      interest: '',
+      eventName : '',
+      participants: [],
+      time: moment(),
+      city: '',
+      venue: '',
       cuisine: '',
-      username: '',
-      items: [],
-      startDate: moment()
+      conversationTopic: [],
+      creator: ''
     }
-
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
-  }
 
+  }
+  
+  
  
   handleChange(e) {
   if(e._isAMomentObject){
-    this.setState({startDate: e});
+    this.setState({time: e});
   }else{
      this.setState({
           [e.target.name]: e.target.value
         });
-
-  }
-   
+    }
   }
 
 
   handleSubmit(e) {
     e.preventDefault();
     const eventsRef = firebase.database().ref('events');
-   
-    const user = firebase.auth().currentUser;
+
+    //we can use the imported modules from /services/firebase.js and replace firebase.auth() with auth
+    const user = auth.currentUser;
     console.log(user);
     if(user){
 
-
       const event = {
-
         eventName : this.state.eventName,
         participants: [user.G],
         time: this.state.time,
-        location: this.state.location,
+        city: this.state.city,
+        venue: this.state.venue,
+        conversationTopic: this.state.conversationTopic,
         cuisine: this.state.cuisine,
         creator: user.G
-
       }
 
       eventsRef.push(event);
 
       this.setState({
         eventName : '',
-        participants: '',
+        participants: [],
         time: moment(),
-        location: '',
+        city: '',
+        venue: '',
         cuisine: '',
+        conversationTopic: [],
         creator: ''
       });
 
@@ -120,34 +128,36 @@ export default class NewEvent extends Component {
     return (
       <div>
         <Segment style={{ padding: '8em 0em' }} vertical>
-          <Container>
-            <div style={{ background: '#fff', padding: 24, minHeight: 280 }}>
-              <div className='container'>
+          <Header as="h1" textAlign="center" content="Host your own dinner party at a restaurant" />
+          <Container text>
+              <Form onSubmit={this.handleSubmit}>
+                <Form.Group>
+                  <Form.Input label='Event Name' placeholder='What is the event called?' type="text" name="eventName" 
+                    onChange={this.handleChange} value={this.state.eventName} />
+                  <Form.Input label='City' placeholder='Where are you hosting it?' type="text" name="city" 
+                    onChange={this.handleChange} value={this.state.city} />
+                </Form.Group>
+                <Form.Group>
+                  <Form.Input label='Venue Name' placeholder="Which restaurant/bar will it be at?" type="text" name="venue" 
+                    onChange={this.handleChange} value={this.state.venue} />
+                  <Form.Input label='Cuisine' placeholder="French, Thai, or Beer?" type="text" name="cuisine" 
+                    onChange={this.handleChange} value={this.state.cuisine} />
+                </Form.Group>
 
-                <section className='createEventInput'>
-
-                  <form onSubmit={this.handleSubmit}>
-                    <input type="text" name="eventName" placeholder="Name this event" onChange={this.handleChange} value={this.state.eventName} />
-                    <input type="text" name="cuisine" placeholder="What cuisine do you like?" onChange={this.handleChange} value={this.state.cuisine} />
-                    <input type="text" name="location" placeholder="Where do you want to host this event?" onChange={this.handleChange} value={this.state.location} />                      
-                    <input type="text" name="time" placeholder="When do you wanna host this event?" onChange={this.handleChange} value={this.state.time} />
-                    <input type="hidden" name="username" onChange={this.handleChange} value={this.state.username} />
-                    <DatePicker
-                        selected={this.state.startDate}
-                        onChange={this.handleChange}
-                        showTimeSelect
-                        timeFormat="HH:mm"
-                        timeIntervals={15}
-                        dateFormat="LLL"
-                    />
-                    <button>Create Event</button>
-                  </form>
-
-                </section>
-      
-              </div>
-            </div>
-          </Container>
+                <InterestMultiSelect label="InterestMultiSelect" onChange={this.handleChange} value={this.state.conversationTopic}/>
+                                    
+                <Header as="h3">Time and Date</Header>
+                <DatePicker
+                    selected={this.state.time}
+                    onChange={this.handleChange}
+                    showTimeSelect
+                    timeFormat="HH:mm"
+                    timeIntervals={30}
+                    dateFormat="LLL"
+                />
+                <Button type="submit">Create Event</Button>
+              </Form>
+            </Container>
         </Segment>
       </div>
     );
