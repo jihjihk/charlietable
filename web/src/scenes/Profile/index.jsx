@@ -28,7 +28,11 @@ import {
   Form
 } from 'semantic-ui-react'
 
-import InterestMultiSelect from '../../components/Select/InterestMultiSelect.js'
+const AGEDATA = require('../../data/age-groups')
+const LANGUAGEDATA = require('../../data/languages')
+const OCCUPATIONDATA = require('../../data/occupations')
+const INTERESTSDATA = require('../../data/interests')
+
 
 export default class Profile extends Component {
 
@@ -36,12 +40,27 @@ export default class Profile extends Component {
     super()
     this.state = {
       userInterests: [],
+      age: '',
+      languages: [],
+      occupation: '',
+      gender: '',
+      stayOpen: true,
+      removeSelected: true
+
           }
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
+    this.handleSelectChange = this.handleSelectChange.bind(this);
 
   }
-
+   handleSelectChange (value) {
+    console.log('You\'ve selected:', value);
+    this.setState({
+      userInterests: value,
+      languages: value,
+      age: value,
+    });
+  }
 
 
   handleChange(e) {
@@ -65,6 +84,10 @@ export default class Profile extends Component {
         userName : user.displayName,
         participants: [user.G],
         userInterests: this.state.userInterests,
+        userAge: this.state.age,
+        userLanguages: this.state.languages,
+        userOccupation: this.state.occupation,
+        userGender: this.state.gender,
         creator: user.G
       }
 
@@ -72,7 +95,10 @@ export default class Profile extends Component {
 
       this.setState({
         userInterests: [],
-        creator: ''
+        age: '',
+        languages: [],
+        occupation: '',
+        gender: '',
       });
 
     } else{
@@ -87,41 +113,94 @@ export default class Profile extends Component {
       }
     });
 
-    //line to user profile database on firebase
-    //const profileRef = firebase.database().ref('user-profiles');
+    const profileRef= db.ref('profile');
 
-      /*<Form.Group>
-                  <Form.Input label='Event Name' placeholder='What is the event called?' type="text" name="eventName" 
-                    onChange={this.handleChange} value={this.state.eventName} />
-                  <Form.Input label='City' placeholder='Where are you hosting it?' type="text" name="city" 
-                    onChange={this.handleChange} value={this.state.city} />
-                </Form.Group>
-                <Form.Group>
-                  <Form.Input label='Venue Name' placeholder="Which restaurant/bar will it be at?" type="text" name="venue" 
-                    onChange={this.handleChange} value={this.state.venue} />
-                  <Form.Input label='Cuisine' placeholder="French, Thai, or Beer?" type="text" name="cuisine" 
-                    onChange={this.handleChange} value={this.state.cuisine} />
-                </Form.Group> */
 
     }
-    render() {
 
-    return (
-      <div>
-        <Segment style={{ padding: '8em 0em' }} vertical>
-          <Header as="h1" textAlign="center" content="Tell us about yourself!" />
-          <Container text>
-              <Form onSubmit={this.handleSubmit}>
-              
-                <Header as="h3"> What are your interests? </Header>
-                <InterestMultiSelect label="InterestMultiSelect" onChange={this.handleChange} value={this.state.userInterests}/>
-                                    
-             
-                <Button type="submit">Create my profile</Button>
-              </Form>
-            </Container>
-        </Segment>
-      </div>
-    );
+
+    render() {
+      var interestOptions= INTERESTSDATA.INTERESTS;
+      var ageOptions= AGEDATA.AGEGROUPS;
+      var languageOptions= LANGUAGEDATA.LANGUAGES;
+      var occupationOptions= OCCUPATIONDATA.OCCUPATIONS;
+
+      return (
+        
+        <div>
+          <Segment style={{ padding: '8em 0em' }} vertical>
+            <Header as="h1" textAlign="center" content="Tell us about yourself!" />
+            <Container text>
+                <Form onSubmit={this.handleSubmit}>
+                   <Form.Group>
+                    <Form.Input label='Gender'type="text" name="gender" 
+                      onChange={this.handleChange} value={this.state.gender} />
+                  </Form.Group>
+                
+                  <Header as="h3"> What are your interests? </Header>
+                  <div className="interest">
+                  <Select
+                    closeOnSelect= {!this.state.stayOpen}
+                    multi
+                    onChange={this.handleSelectChange}
+                    options= {interestOptions}
+                    placeholder="e.g. Hiking, Spanish language, Meditation..."
+                    simpleValue
+                    value= {this.state.userInterests}
+                    removeSelected={this.state.removeSelected}
+                  />    
+                                      
+                  </div>
+
+                  <Header as="h3"> How old are you? </Header>
+                  <div className="age-group">
+                  <Select
+                    closeOnSelect= {!this.state.stayOpen}
+                    multi
+                    onChange={this.handleSelectChange}
+                    options= {ageOptions}
+                    simpleValue
+                    value= {this.state.age}
+                    removeSelected={this.state.removeSelected}
+                  />    
+                                      
+                 
+                    </div>
+
+                  <Header as="h3"> What languages do you speak? </Header>
+                  <div className="languages">
+                  <Select
+                    closeOnSelect= {!this.state.stayOpen}
+                    multi
+                    onChange={this.handleSelectChange}
+                    options= {languageOptions}
+                    simpleValue
+                    value= {this.state.languages}
+                    removeSelected={this.state.removeSelected}
+                  />    
+                                      
+                  </div>
+
+                
+
+                  <Header as="h3"> What's your occupation? </Header>
+                  <div className="occupation">
+                  <Select
+                    closeOnSelect= {!this.state.stayOpen}
+                    multi
+                    onChange={this.handleSelectChange}
+                    options= {occupationOptions}
+                    simpleValue
+                    value= {this.state.occupation}
+                    removeSelected={this.state.removeSelected}
+                  />    
+                                      
+                  </div>
+                  <Button type="submit">Create my profile</Button>
+                </Form>
+              </Container>
+          </Segment>
+        </div>
+      );
+    }
   }
-}
