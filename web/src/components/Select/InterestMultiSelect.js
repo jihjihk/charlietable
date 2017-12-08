@@ -72,7 +72,6 @@ export default class InterestMultiSelect extends Component {
     const options = INTERESTS;
     return (
       <div className="section">
-        <h3 className="section-heading">Pick 3 Potential Conversation Topics</h3>
         <Select
           closeOnSelect={!stayOpen}
           multi

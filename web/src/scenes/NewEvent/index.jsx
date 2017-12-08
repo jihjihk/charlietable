@@ -143,7 +143,7 @@ export default class NewEvent extends Component {
                   <Form.Input label='Cuisine' placeholder="French, Thai, or Beer?" type="text" name="cuisine" 
                     onChange={this.handleChange} value={this.state.cuisine} />
                 </Form.Group>
-
+                <Header as="h3">Pick 3 Potential Conversation Topics</Header>
                 <InterestMultiSelect label="InterestMultiSelect" onChange={this.handleChange} value={this.state.conversationTopic}/>
                                     
                 <Header as="h3">Time and Date</Header>
