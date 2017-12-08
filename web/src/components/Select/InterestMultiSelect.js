@@ -19,7 +19,7 @@ const INTERESTS = [
   { label: "Philanthropy", value: "philanthropy" },
   { label: "Vegetarian", value: "vegetarian" },
   { label: "Working Abroad", value: "workingAbroad" },
-  { label: "Arabic Language & Culture", value: "arbic" },
+  { label: "Arabic Language & Culture", value: "arabic" },
   { label: "Spanish Language & Culture", value: "spanish" },
   { label: "French Language & Culture", value: "french" },
   { label: "Korean Language & Culture", value: "korean" },
