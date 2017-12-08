@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import './style.css';
 import firebase from 'firebase'
 
 import DatePicker from 'react-datepicker';
@@ -9,6 +8,7 @@ import 'react-datepicker/dist/react-datepicker.css';
 
 import Select from 'react-select';
 import 'react-select/dist/react-select.css';
+import './style.css';
 
 import { db, auth, provider } from '../../services/firebase.js';
 import {
@@ -168,16 +168,17 @@ export default class NewEvent extends Component {
                     value={this.state.conversationTopic}
                     removeSelected={this.state.removeSelected}
                   />
-
                 </div>                    
                 <Header as="h3">Time and Date</Header>
                 <DatePicker
                     selected={this.state.time}
                     onChange={this.handleChange}
+                    minDate={moment()}
                     showTimeSelect
                     timeFormat="HH:mm"
                     timeIntervals={30}
                     dateFormat="LLL"
+                    className="datePickerFormat"
                 />
                 <Button type="submit">Create Event</Button>
               </Form>

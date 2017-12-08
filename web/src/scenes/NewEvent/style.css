@@ -156,3 +156,33 @@ button {
   box-shadow: 0 2px 5px 0 rgba(0,0,0,.26);
   padding: 10px 6px;
 }
+
+
+.datePickerFormat{
+
+  border-width:3px;
+  border-style:solid;
+  border-color:purple;
+  width: 50% !important;
+
+}
+
+
+.react-datepicker-wrapper{
+  width: 100% !important;
+}
+.react-datepicker__input-container{ 
+  width: 100% !important;
+  padding-bottom: 1.5rem !important;
+}
+
+
+.field{
+
+  width: 50%;
+}
+
+
+
+
+
