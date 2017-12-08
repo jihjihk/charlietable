@@ -30,11 +30,13 @@ import InterestMultiSelect from '../../components/Select/InterestMultiSelect.js'
 import EventTile from './components/EventTile.jsx';
 
 
-var numEvents = 0;
-var cuisines = [];
-var times = [];
 var images = [];
-var locations = [];
+var cuisine = '';
+var source = '';
+var location = '';
+var time = '';
+var buttonId = '';
+
 
 export default class Dining extends Component{
   constructor() {
@@ -81,32 +83,33 @@ export default class Dining extends Component{
         this.setState({ user });
       }
     });
-
-    createEventTile: function(location, time, cuisine, id, source){
-      return (<EventTile source={source}key={source}/>);
+  }
+    createEventTile = function(location, time, cuisine, id, source){
+      return (<EventTile source={source} key={source} />);
     };
 
-    const eventsRef = firebase.database().ref('events');
-    const imageRef = firebase.database().ref('diningImages');
-    createEventTiles: function (eventsRef){
+
+    createEventTiles = function(){
+      const eventsRef = firebase.database().ref('events');
+      const imageRef = firebase.database().ref('diningImages');
       eventsRef.once("value")
       .then(function(snapshot){
         snapshot.forEach(function(childSnapshot){
           var key = childSnapshot.key;
           console.log("Child Key "+key);
-          var buttonId = key;
+          buttonId = key;
           childSnapshot.forEach(function(childSnapshot){
             var childKey = childSnapshot.key;
             var childVal = childSnapshot.val();
             if(childKey == "cuisine"){
               console.log("Found Cuisine");
-              var cuisine = childVal;
+              cuisine = childVal;
             }
             if(childKey == "time"){
-              var time = childVal;
+              time = childVal;
             }
             if(childKey == "venue"){
-              var location = childVal;
+              location = childVal;
             }
             console.log("el in child: "+ childKey);
             console.log("Child Value: "+childVal);
@@ -124,13 +127,14 @@ export default class Dining extends Component{
               }
             })
           })
-          return(this.createEventTile(location, time, cuisine, id, source));
+          console.log("PPARAMS "+ location + time + cuisine + buttonId + source);
+          return(this.createEventTile(location, time, cuisine, buttonId, source));
         })
       })
 
     };
 
-  }
+
 
   render(){
     return(
@@ -156,7 +160,7 @@ export default class Dining extends Component{
       />
       </Container>
       <Grid columns={4} divided>
-        createEventTiles();
+        {this.createEventTiles()}
       </Grid>
       </Segment>
       </div>
