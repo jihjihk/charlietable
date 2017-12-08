@@ -28,6 +28,50 @@ import {
 
 const DATA = require('../../data/interests');
 
+function recordUserPreference(eventCreated){
+
+  //update DB on the user's preferences, ensure this is reflected 
+  //for the next time that user makes a choice.
+
+}
+
+
+function determineCity(inputCity){
+
+  // check if the city exists in our own db, save a call to API.
+
+  // make Zomato API call based on inputCity.
+
+  // save the city values to db if it didn't exist before.
+
+  //return 1. name of city, 2. coords, 3. cityID as a JSON obj
+}
+
+function determineCuisines(inputCityId){
+
+  // check if the cuisines for that city exists in our own db.
+  //If the date of last access(which we will also log in our db) is less than a week, save a call to API.
+
+  //make Zomato API call, get back types of cuisines available in the city provided.
+
+  //save the cuisines to the db.
+
+  //return an array of cuisines available in the city.
+
+
+
+}
+
+
+function determineResOptions(inputCityId, cuisinesArray ){
+  //get restaurant options given the input city id and cusines array. Return value sorted by rating.
+  //https://developers.zomato.com/api/v2.1/search?entity_id=57&entity_type=city&start=0&count=50&cuisines=150&sort=rating&order=desc
+
+
+
+}
+
+
 function verifyInput(inputObj){
 
     const hasName = inputObj.eventName.length !=0 ;
@@ -55,6 +99,8 @@ function verifyInput(inputObj){
     }else{
       return {success: "successfully created event "+inputObj.eventName};
     }
+
+
 }
 
 function verifyEventUnique(inputObj){
@@ -97,7 +143,6 @@ export default class NewEvent extends Component {
     else {
       this.setState( 
         { [e.target.name]: e.target.value } 
-        //{ e }
         )
       }
     }
