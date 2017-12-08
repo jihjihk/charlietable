@@ -1,14 +1,150 @@
 
 import React, { Component } from 'react';
-import * as Survey from 'survey-react';
-import 'survey-react/survey.css';
+import './style.css';
+import firebase from 'firebase'
+
+//import * as Survey from 'survey-react';
+//import 'survey-react/survey.css';
 // import SurveyEditor from './SurveyEditor';
 // import logo from './logo.svg';
 // import './index.css';
 // import 'bootstrap/dist/css/bootstrap.css';
 
 
+import Select from 'react-select';
+import 'react-select/dist/react-select.css';
+
+import { ref, auth, provider } from '../../services/firebase.js';
+import {
+  Button,
+  Container,
+  Divider,
+  Grid,
+  Header,
+  Icon,
+  Image,
+  List,
+  Menu,
+  Segment,
+  Visibility,
+  Form
+} from 'semantic-ui-react'
+
+import InterestMultiSelect from '../../components/Select/InterestMultiSelect.js'
+
+
 class Profile extends Component {
+
+  constructor(){
+    super()
+    this.state = {
+      eventName : '',
+      participants: [],
+      time: moment(),
+      city: '',
+      venue: '',
+      cuisine: '',
+      userInterests: [],
+      creator: ''
+    }
+    this.handleChange = this.handleChange.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
+
+  }
+
+
+
+  handleChange(e) {
+  if(e._isAMomentObject){
+    this.setState({time: e});
+  }else{
+     this.setState({
+          [e.target.name]: e.target.value
+        });
+    }
+  }
+
+   handleSubmit(e) {
+    e.preventDefault();
+    const eventsRef = firebase.database().ref('events');
+
+    //we can use the imported modules from /services/firebase.js and replace firebase.auth() with auth
+    const user = auth.currentUser;
+    console.log(user);
+    if(user){
+
+      const event = {
+        eventName : this.state.eventName,
+        participants: [user.G],
+        time: this.state.time,
+        city: this.state.city,
+        venue: this.state.venue,
+        userInterests: this.state.userInterests,
+        cuisine: this.state.cuisine,
+        creator: user.G
+      }
+
+      eventsRef.push(event);
+
+      this.setState({
+        eventName : '',
+        participants: [],
+        time: moment(),
+        city: '',
+        venue: '',
+        cuisine: '',
+        userInterests: [],
+        creator: ''
+      });
+
+    } else{
+        alert("please first login");
+    }
+
+  }
+  componentDidMount() {
+    auth.onAuthStateChanged((user) => {
+      if (user) {
+        this.setState({ user });
+      }
+    });
+
+    //line to user profile database on firebase
+    //const profileRef = firebase.database().ref('user-profiles');
+
+    }
+    render() {
+
+    return (
+      <div>
+        <Segment style={{ padding: '8em 0em' }} vertical>
+          <Header as="h1" textAlign="center" content="Tell us about yourself!" />
+          <Container text>
+              <Form onSubmit={this.handleSubmit}>
+                <Form.Group>
+                  <Form.Input label='Event Name' placeholder='What is the event called?' type="text" name="eventName" 
+                    onChange={this.handleChange} value={this.state.eventName} />
+                  <Form.Input label='City' placeholder='Where are you hosting it?' type="text" name="city" 
+                    onChange={this.handleChange} value={this.state.city} />
+                </Form.Group>
+                <Form.Group>
+                  <Form.Input label='Venue Name' placeholder="Which restaurant/bar will it be at?" type="text" name="venue" 
+                    onChange={this.handleChange} value={this.state.venue} />
+                  <Form.Input label='Cuisine' placeholder="French, Thai, or Beer?" type="text" name="cuisine" 
+                    onChange={this.handleChange} value={this.state.cuisine} />
+                </Form.Group>
+                <Header as="h3"> What are your interests? </Header>
+                <InterestMultiSelect label="InterestMultiSelect" onChange={this.handleChange} value={this.state.userInterests}/>
+                                    
+             
+                <Button type="submit">Create my profile</Button>
+              </Form>
+            </Container>
+        </Segment>
+      </div>
+    );
+  }
+}
     json = { title: 'Create your profile!', showProgressBar: 'top', pages: [
       {
         questions: [{
@@ -95,6 +231,7 @@ class Profile extends Component {
           title: 'If you are ready to create your profile, please press the "Submit" button.'
         }]
       }]
+  }
   };
    
    
