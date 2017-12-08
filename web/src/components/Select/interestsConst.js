@@ -1,6 +1,4 @@
 import React, { Component } from 'react';
-import Select from 'react-select';
-import 'react-select/dist/react-select.css';
 
 const INTERESTS = [
   { label: "Writing", value: "writing" },
@@ -50,38 +48,3 @@ const INTERESTS = [
   { label: "Dating and Relationship", value: "dating" },
   { label: "Women Empowerment", value: "womenEmpowerment" }
 ]
-
-export default class InterestMultiSelect extends Component {
-  constructor() {
-    super();
-    this.state = {
-      removeSelected: true,
-      stayOpen: true,
-      interestValue: []
-    }
-    this.handleSelectChange = this.handleSelectChange.bind(this);
-  }
-
-  handleSelectChange (interestValue) {
-    console.log('You\'ve selected:', interestValue);
-    this.setState({ interestValue });
-  }
-
-  render () {
-    const { stayOpen, removeSelected, interestValue } = this.state;
-    const options = INTERESTS;
-    return (
-      <div className="section">
-        <Select
-          closeOnSelect={!stayOpen}
-          multi
-          onChange={this.handleSelectChange}
-          options={options}
-          placeholder="e.g. Hiking, Spanish language, Meditation..."
-          simpleValue
-          value={interestValue}
-        />
-      </div>
-    );
-  }
-}

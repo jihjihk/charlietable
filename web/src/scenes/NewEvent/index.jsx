@@ -26,7 +26,7 @@ import {
   Form
 } from 'semantic-ui-react'
 
-import InterestMultiSelect from './components/InterestMultiSelect.js'
+const DATA = require('../../data/interests')
 
 export default class NewEvent extends Component {
   constructor() {
@@ -34,6 +34,8 @@ export default class NewEvent extends Component {
     this.state = {
       eventName : '',
       participants: [],
+      removeSelected: true,
+      stayOpen: true,
       time: moment(),
       city: '',
       venue: '',
@@ -43,21 +45,29 @@ export default class NewEvent extends Component {
     }
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
+    this.handleSelectChange = this.handleSelectChange.bind(this);
 
   }
   
-  
- 
   handleChange(e) {
-  if(e._isAMomentObject){
-    this.setState({time: e});
-  }else{
-     this.setState({
-          [e.target.name]: e.target.value
-        });
+    if(e._isAMomentObject){
+      this.setState({time: e});
     }
+    
+    else {
+      this.setState( 
+        { [e.target.name]: e.target.value } 
+        //{ e }
+        )
+      }
+    }
+  
+  handleSelectChange (value) {
+    console.log('You\'ve selected:', value);
+    this.setState({
+      conversationTopic: value
+    });
   }
-
 
   handleSubmit(e) {
     e.preventDefault();
@@ -127,7 +137,7 @@ export default class NewEvent extends Component {
   }
   
   render() {
-
+    var options = DATA.INTERESTS;
     return (
       <div>
         <Segment style={{ padding: '8em 0em' }} vertical>
@@ -147,8 +157,19 @@ export default class NewEvent extends Component {
                     onChange={this.handleChange} value={this.state.cuisine} />
                 </Form.Group>
                 <Header as="h3">Pick 3 Potential Conversation Topics</Header>
-                <InterestMultiSelect label="InterestMultiSelect" onChange={this.handleChange} value={this.state.conversationTopic}/>
-                                    
+                <div className="section">
+                  <Select
+                    closeOnSelect={!this.state.stayOpen}
+                    multi
+                    onChange={this.handleSelectChange}
+                    options={options}
+                    placeholder="e.g. Hiking, Spanish language, Meditation..."
+                    simpleValue
+                    value={this.state.conversationTopic}
+                    removeSelected={this.state.removeSelected}
+                  />
+
+                </div>                    
                 <Header as="h3">Time and Date</Header>
                 <DatePicker
                     selected={this.state.time}
