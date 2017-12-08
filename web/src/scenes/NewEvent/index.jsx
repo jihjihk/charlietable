@@ -26,7 +26,45 @@ import {
   Form
 } from 'semantic-ui-react'
 
-const DATA = require('../../data/interests')
+const DATA = require('../../data/interests');
+
+function verifyInput(inputObj){
+
+    const hasName = inputObj.eventName.length !=0 ;
+    const hasTime = inputObj.time!=null;
+    const hasCity = inputObj.city.length !=0 ;
+    const hasVenue = inputObj.venue.length !=0;
+    const hasCuisine = inputObj.cuisine.length !=0;
+    const hasConversationTopic = inputObj.conversationTopic.length >= 3 ;
+    const hasUser = inputObj.creator != null && inputObj.creator == inputObj.participants[0];
+
+    if (!hasName){
+      return {error: "make sure you've named this event"}
+    }else if(!hasCity){
+      return {error: "make sure you've set a city for this event"}
+    }else if(!hasVenue){
+      return {error: "make sure you've set a venue for this event"}
+    }else if(!hasCuisine){
+      return {error: "make sure you've set a cuisine for this event"}
+    }else if(!hasConversationTopic){
+      return {error: "make sure you've set three conversation topics for this event"}
+    }else if(!hasTime){
+      return {error: "make sure you've set a time for this event"}
+    }else if(!hasUser){
+      return {error: "are you trying to hack us? That's not very nice."};
+    }else{
+      return {success: "successfully created event "+inputObj.eventName};
+    }
+}
+
+function verifyEventUnique(inputObj){
+
+  return true;
+
+}
+
+
+
 
 export default class NewEvent extends Component {
   constructor() {
@@ -48,6 +86,8 @@ export default class NewEvent extends Component {
     this.handleSelectChange = this.handleSelectChange.bind(this);
 
   }
+
+  
   
   handleChange(e) {
     if(e._isAMomentObject){
@@ -63,7 +103,6 @@ export default class NewEvent extends Component {
     }
   
   handleSelectChange (value) {
-    console.log('You\'ve selected:', value);
     this.setState({
       conversationTopic: value
     });
@@ -75,41 +114,67 @@ export default class NewEvent extends Component {
 
     //we can use the imported modules from /services/firebase.js and replace firebase.auth() with auth
     const user = auth.currentUser;
-    console.log(user);
+
     if(user){
 
+      //we will use user's google account info to track them.
+
       const event = {
+
         eventName : this.state.eventName,
         participants: [user.G],
         time: this.state.time.unix(),
         city: this.state.city,
         venue: this.state.venue,
-        conversationTopic: this.state.conversationTopic,
+        conversationTopic: this.state.conversationTopic.split(","),
         cuisine: this.state.cuisine,
         creator: user.G
+
       }
 
-      eventsRef.push(event);
+      const result= verifyInput(event);
 
-      this.setState({
-        eventName : '',
-        participants: [],
-        time: moment(),
-        city: '',
-        venue: '',
-        cuisine: '',
-        conversationTopic: [],
-        creator: ''
-      });
+      if(result.success){
+        
+        if(!verifyEventUnique(event)){
+        
+        alert("there already exists an event just like this.")
+        
+        }else{
 
+          alert(result.success);
+          eventsRef.push(event);
+
+        }
+
+        // reset state
+        this.setState({
+          eventName : '',
+          participants: [],
+          time: moment(),
+          city: '',
+          venue: '',
+          cuisine: '',
+          conversationTopic: [],
+          creator: ''
+        });
+        //redirect to main page
+        this.props.history.push('/');
+
+      }else{
+        alert(result.error);
+      }
     }else{
         alert("please first login");
     }
 
-    console.log("These are my interests")
-    console.log(this.state.conversationTopic)
+
+
 
   }
+
+
+
   componentDidMount() {
     auth.onAuthStateChanged((user) => {
       if (user) {
