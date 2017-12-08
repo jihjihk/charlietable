@@ -26,7 +26,7 @@ import {
   Form
 } from 'semantic-ui-react'
 
-import InterestMultiSelect from '../../components/Select/InterestMultiSelect.js'
+import InterestMultiSelect from './components/InterestMultiSelect.js'
 
 export default class NewEvent extends Component {
   constructor() {
@@ -95,6 +95,9 @@ export default class NewEvent extends Component {
     }else{
         alert("please first login");
     }
+
+    console.log("These are my interests")
+    console.log(this.state.conversationTopic)
 
   }
   componentDidMount() {

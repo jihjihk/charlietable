@@ -19,7 +19,7 @@ const INTERESTS = [
   { label: "Philanthropy", value: "philanthropy" },
   { label: "Vegetarian", value: "vegetarian" },
   { label: "Working Abroad", value: "workingAbroad" },
-  { label: "Arabic Language & Culture", value: "arabic" },
+  { label: "Arabic Language & Culture", value: "arbic" },
   { label: "Spanish Language & Culture", value: "spanish" },
   { label: "French Language & Culture", value: "french" },
   { label: "Korean Language & Culture", value: "korean" },
@@ -57,18 +57,18 @@ export default class InterestMultiSelect extends Component {
     this.state = {
       removeSelected: true,
       stayOpen: true,
-      value: []
+      interestValue: []
     }
     this.handleSelectChange = this.handleSelectChange.bind(this);
   }
 
-  handleSelectChange (value) {
-    console.log('You\'ve selected:', value);
-    this.setState({ value });
+  handleSelectChange (interestValue) {
+    console.log('You\'ve selected:', interestValue);
+    this.setState({ interestValue });
   }
 
   render () {
-    const { stayOpen, value } = this.state;
+    const { stayOpen, removeSelected, interestValue } = this.state;
     const options = INTERESTS;
     return (
       <div className="section">
@@ -77,9 +77,9 @@ export default class InterestMultiSelect extends Component {
           multi
           onChange={this.handleSelectChange}
           options={options}
-          placeholder="e.g. hiking, Spanish language, meditation..."
+          placeholder="e.g. Hiking, Spanish language, Meditation..."
           simpleValue
-          value={value}
+          value={interestValue}
         />
       </div>
     );
