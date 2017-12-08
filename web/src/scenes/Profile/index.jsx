@@ -1,4 +1,3 @@
-
 import React, { Component } from 'react';
 import * as Survey from 'survey-react';
 import 'survey-react/survey.css';
@@ -6,7 +5,7 @@ import 'survey-react/survey.css';
 // import logo from './logo.svg';
 // import './index.css';
 // import 'bootstrap/dist/css/bootstrap.css';
-
+import { db, auth, provider } from '../../services/firebase.js';
 
 class Profile extends Component {
     json = { title: 'Create your profile!', showProgressBar: 'top', pages: [

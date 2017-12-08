@@ -27,7 +27,7 @@ import Home from './scenes/Home';
 import Dining from './scenes/Dining';
 import Profile from './scenes/Profile';
 import NewEvent from './scenes/NewEvent';	
-import firebase, { auth, ref, provider } from './services/firebase.js';
+import firebase, { auth, db, provider } from './services/firebase.js';
 // import NewEvent from './scenes/NewEvent // <Route path="/newevent" component={NewEvent}/>
 
 function PrivateRoute ({component: Component, user, authed, ...rest}) {

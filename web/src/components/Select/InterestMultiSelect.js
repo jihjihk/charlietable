@@ -48,7 +48,7 @@ const INTERESTS = [
   { label: "20's Social", value: "20social" },
   { label: "30's Social", value: "30social" },
   { label: "Dating and Relationship", value: "dating" },
-  { label: "Women's Social", value: "womenSocial" }
+  { label: "Women Empowerment", value: "womenEmpowerment" }
 ]
 
 export default class InterestMultiSelect extends Component {

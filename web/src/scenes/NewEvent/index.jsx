@@ -10,7 +10,7 @@ import 'react-datepicker/dist/react-datepicker.css';
 import Select from 'react-select';
 import 'react-select/dist/react-select.css';
 
-import { ref, auth, provider } from '../../services/firebase.js';
+import { db, auth, provider } from '../../services/firebase.js';
 import {
   Button,
   Container,
@@ -61,7 +61,7 @@ export default class NewEvent extends Component {
 
   handleSubmit(e) {
     e.preventDefault();
-    const eventsRef = firebase.database().ref('events');
+    const eventsRef = db.ref('events');
 
     //we can use the imported modules from /services/firebase.js and replace firebase.auth() with auth
     const user = auth.currentUser;
@@ -71,7 +71,7 @@ export default class NewEvent extends Component {
       const event = {
         eventName : this.state.eventName,
         participants: [user.G],
-        time: this.state.time,
+        time: this.state.time.unix(),
         city: this.state.city,
         venue: this.state.venue,
         conversationTopic: this.state.conversationTopic,
@@ -104,7 +104,7 @@ export default class NewEvent extends Component {
       }
     });
 
-    const eventsRef = firebase.database().ref('events');
+    const eventsRef = db.ref('events');
 
     // eventsRef.on('value', (snapshot) => {
     //   let events = snapshot.val();
