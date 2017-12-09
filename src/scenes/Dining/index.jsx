@@ -165,7 +165,6 @@ export default class Dining extends Component{
         //console.log(times);
         //console.log(sources);
       })
-
       //return (<EventTile location={location} source={source} time={time} cuisine = {cuisine} buttonId={buttonId} style={style}/>);
 
     })
