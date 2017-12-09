@@ -111,10 +111,10 @@ export default class App extends Component {
             <Container>
               <Menu fixed='top' size='large'>
                 <Menu.Menu position='right'>
-                  <Menu.Item as='home' active><Link to="/">Home</Link></Menu.Item>
+                  <Menu.Item as='home'><Link to="/">Home</Link></Menu.Item>
                   <Menu.Item as='dining'><Link to="/dining">Explore</Link></Menu.Item>
                   <Menu.Item as='newevent'><Link to="/newevent">Organize</Link></Menu.Item>
-                  <Menu.Item as='messages'>Messages</Menu.Item>
+                  
                     {this.state.user ?
                         <Menu.Item as='profile'><Link to="/profile">
                             <Image src={this.state.user.photoURL} size='mini' circular />
