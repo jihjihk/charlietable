@@ -22,7 +22,6 @@ export default class EventTile extends Component{
   //}
 //let EventTile = function statelessFunctionComponentClass(props){
   render(){
-    console.log("Making Image");
     return (
       <Grid.Column>
         <Image src={this.props.source} style={this.props.style}/>
