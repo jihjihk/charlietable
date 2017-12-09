@@ -24,10 +24,10 @@ export default class EventTile extends Component{
   render(){
     return (
       <Grid.Column>
-        <Image src={this.props.source} style={this.props.style}/>
-        <span>{this.props.cuisine} at {this.props.location}</span>
-        {this.props.time}
-        <Button id={this.props.buttonId} primary size='medium'>RSVP<Icon name='right arrow' /></Button>
+        <Image src={this.props.src} style={this.props.style}/>
+        <span>{this.props.food} at {this.props.venue}</span>
+        {this.props.timePlace}
+        <Button id={this.props.id} primary size='medium'>RSVP<Icon name='right arrow' /></Button>
       </Grid.Column>
     );
   }
