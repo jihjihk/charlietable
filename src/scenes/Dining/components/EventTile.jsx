@@ -25,8 +25,9 @@ export default class EventTile extends Component{
     return (
       <Grid.Column>
         <Image src={this.props.src} style={this.props.style}/>
-        <span>{this.props.food} at {this.props.venue}</span>
-        {this.props.timePlace}
+        <br />
+        <span>{this.props.food} at {this.props.venue}</span> <br />
+        {this.props.timePlace} <br />
         <Button id={this.props.id} primary size='medium'>RSVP<Icon name='right arrow' /></Button>
       </Grid.Column>
     );
