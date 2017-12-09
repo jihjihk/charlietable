@@ -174,7 +174,6 @@ export default class Profile extends Component {
                   <div className="age-group">
                   <Select
                     closeOnSelect= {!this.state.stayOpen}
-                    multi
                     onChange={this.handleSelectChangeAge}
                     options= {ageOptions}
                     simpleValue
@@ -205,7 +204,6 @@ export default class Profile extends Component {
                   <div className="occupation">
                   <Select
                     closeOnSelect= {!this.state.stayOpen}
-                    multi
                     onChange={this.handleSelectChangeOccupation}
                     options= {occupationOptions}
                     simpleValue
@@ -218,7 +216,6 @@ export default class Profile extends Component {
                   <div className="location">
                   <Select
                     closeOnSelect= {!this.state.stayOpen}
-                    multi
                     onChange={this.handleSelectChangeLocation}
                     options= {locationOptions}
                     simpleValue

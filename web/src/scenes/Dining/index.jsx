@@ -155,7 +155,7 @@ export default class Dining extends Component{
         }
 
       })
-      //return (<EventTile location={location} source={source} time={time} cuisine = {cuisine} buttonId={buttonId} style={style}/>);
+      return (<EventTile location={location} source={source} time={time} cuisine = {cuisine} buttonId={buttonId} style={style}/>);
 
     })
     console.log("FINAL IMAGE ARRAY "+images);
