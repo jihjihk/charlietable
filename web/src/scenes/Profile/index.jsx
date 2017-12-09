@@ -2,12 +2,6 @@ import React, { Component } from 'react';
 import './style.css';
 import firebase from 'firebase'
 
-//import * as Survey from 'survey-react';
-//import 'survey-react/survey.css';
-// import SurveyEditor from './SurveyEditor';
-// import logo from './logo.svg';
-// import './index.css';
-// import 'bootstrap/dist/css/bootstrap.css';
 import { db, auth, provider } from '../../services/firebase.js';
 
 import Select from 'react-select';
@@ -32,7 +26,7 @@ const AGEDATA = require('../../data/age-groups')
 const LANGUAGEDATA = require('../../data/languages')
 const OCCUPATIONDATA = require('../../data/occupations')
 const INTERESTSDATA = require('../../data/interests')
-
+const LOCATIONDATA = require('../../data/locations')
 
 export default class Profile extends Component {
 
@@ -43,6 +37,7 @@ export default class Profile extends Component {
       age: '',
       languages: [],
       occupation: '',
+      location:'',
       gender: '',
       stayOpen: true,
       removeSelected: true
@@ -53,8 +48,8 @@ export default class Profile extends Component {
     this.handleSelectChangeInterests = this.handleSelectChangeInterests.bind(this);
     this.handleSelectChangeAge = this.handleSelectChangeAge.bind(this);
     this.handleSelectChangeLanguages = this.handleSelectChangeLanguages.bind(this);
-    this.handleSelectChangeOccupaton = this.handleSelectChangeOccupaton.bind(this);
-
+    this.handleSelectChangeOccupation = this.handleSelectChangeOccupation.bind(this);
+    this.handleSelectChangeLocation = this.handleSelectChangeLocation.bind(this);
   }
    handleSelectChangeInterests (value) {
      this.setState({
@@ -71,9 +66,14 @@ export default class Profile extends Component {
         languages: value
       });
   }
-   handleSelectChangeOccupaton (value) {
+   handleSelectChangeOccupation (value) {
      this.setState({
         occupation: value
+      });
+  }
+   handleSelectChangeLocation (value) {
+     this.setState({
+        location: value
       });
   }
 
@@ -102,7 +102,8 @@ export default class Profile extends Component {
         userLanguages: this.state.languages.split(","),
         userOccupation: this.state.occupation,
         userGender: this.state.gender,
-        creator: user.G
+        creator: user.G,
+        userLocation: this.state.location
       }
 
       profileRef.push(profile);
@@ -113,6 +114,7 @@ export default class Profile extends Component {
         languages: [],
         occupation: '',
         gender: '',
+        location: ''
       });
       this.props.history.push('/');
 
@@ -139,6 +141,7 @@ export default class Profile extends Component {
       var ageOptions= AGEDATA.AGEGROUPS;
       var languageOptions= LANGUAGEDATA.LANGUAGES;
       var occupationOptions= OCCUPATIONDATA.OCCUPATIONS;
+      var locationOptions= LOCATIONDATA.LOCATIONS;
 
       return (
         
@@ -203,10 +206,23 @@ export default class Profile extends Component {
                   <Select
                     closeOnSelect= {!this.state.stayOpen}
                     multi
-                    onChange={this.handleSelectChangeOccupaton}
+                    onChange={this.handleSelectChangeOccupation}
                     options= {occupationOptions}
                     simpleValue
                     value= {this.state.occupation}
+                    removeSelected={this.state.removeSelected}
+                  />    
+                                      
+                  </div>
+                    <Header as="h3"> Where do you live? </Header>
+                  <div className="location">
+                  <Select
+                    closeOnSelect= {!this.state.stayOpen}
+                    multi
+                    onChange={this.handleSelectChangeLocation}
+                    options= {locationOptions}
+                    simpleValue
+                    value= {this.state.location}
                     removeSelected={this.state.removeSelected}
                   />    
                                       
