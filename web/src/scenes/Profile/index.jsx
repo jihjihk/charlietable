@@ -150,10 +150,14 @@ export default class Profile extends Component {
             <Header as="h1" textAlign="center" content="Tell us about yourself!" />
             <Container text>
                 <Form onSubmit={this.handleSubmit}>
+                   
+                   <Header as="h3"> Gender </Header>
+                   <div className="gender">
                    <Form.Group>
-                    <Form.Input label='Gender'type="text" name="gender" 
+                    <Form.Input type="text" name="gender" 
                       onChange={this.handleChange} value={this.state.gender} />
                   </Form.Group>
+                  </div>
                 
                   <Header as="h3"> What are your interests? </Header>
                   <div className="interest">
