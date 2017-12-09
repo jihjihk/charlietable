@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Component } from 'react';
 import {
   Button,
   Container,
@@ -14,27 +14,22 @@ import {
   Form
 } from 'semantic-ui-react'
 
-let EventTile = function statelessFunctionComponentClass(props){
-  let location = props.location;
-  let time = props.time;
-  let cuisine = props.cuisine;
-  let buttonId = props.id;
+export default class EventTile extends Component{
 
-  let source = props.source;
-
-  let style = {
-    width : '200px',
-    margin: '10px'
-  };
-
-  return (
-    <Grid.Column>
-      <Image src={source} style={style} />
-      <span>{cuisine} at {location}</span>
-      {time}
-      <Button id={buttonId} primary size='medium'>RSVP<Icon name='right arrow' /></Button>
-    </Grid.Column>
-  );
-};
-
-export default EventTile;
+  //const styles = {
+  //  width:'200px',
+  //  margin: '10px'
+  //}
+//let EventTile = function statelessFunctionComponentClass(props){
+  render(){
+    console.log("Making Image");
+    return (
+      <Grid.Column>
+        <Image src={this.props.source} style={this.props.style}/>
+        <span>{this.props.cuisine} at {this.props.location}</span>
+        {this.props.time}
+        <Button id={this.props.buttonId} primary size='medium'>RSVP<Icon name='right arrow' /></Button>
+      </Grid.Column>
+    );
+  }
+}
