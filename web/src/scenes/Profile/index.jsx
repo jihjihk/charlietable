@@ -50,16 +50,31 @@ export default class Profile extends Component {
           }
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
-    this.handleSelectChange = this.handleSelectChange.bind(this);
+    this.handleSelectChangeInterests = this.handleSelectChangeInterests.bind(this);
+    this.handleSelectChangeAge = this.handleSelectChangeAge.bind(this);
+    this.handleSelectChangeLanguages = this.handleSelectChangeLanguages.bind(this);
+    this.handleSelectChangeOccupaton = this.handleSelectChangeOccupaton.bind(this);
 
   }
-   handleSelectChange (value) {
-    console.log('You\'ve selected:', value);
-    this.setState({
-      userInterests: value,
-      languages: value,
-      age: value,
-    });
+   handleSelectChangeInterests (value) {
+     this.setState({
+        userInterests: value
+      });
+  }
+   handleSelectChangeAge (value) {
+     this.setState({
+        age: value
+      });
+  }
+   handleSelectChangeLanguages (value) {
+     this.setState({
+        languages: value
+      });
+  }
+   handleSelectChangeOccupaton (value) {
+     this.setState({
+        occupation: value
+      });
   }
 
 
@@ -82,10 +97,9 @@ export default class Profile extends Component {
 
       const profile = {
         userName : user.displayName,
-        participants: [user.G],
-        userInterests: this.state.userInterests,
+        userInterests: this.state.userInterests.split(","),
         userAge: this.state.age,
-        userLanguages: this.state.languages,
+        userLanguages: this.state.languages.split(","),
         userOccupation: this.state.occupation,
         userGender: this.state.gender,
         creator: user.G
@@ -100,6 +114,7 @@ export default class Profile extends Component {
         occupation: '',
         gender: '',
       });
+      this.props.history.push('/');
 
     } else{
         alert("please first login");
@@ -142,7 +157,7 @@ export default class Profile extends Component {
                   <Select
                     closeOnSelect= {!this.state.stayOpen}
                     multi
-                    onChange={this.handleSelectChange}
+                    onChange={this.handleSelectChangeInterests}
                     options= {interestOptions}
                     placeholder="e.g. Hiking, Spanish language, Meditation..."
                     simpleValue
@@ -157,7 +172,7 @@ export default class Profile extends Component {
                   <Select
                     closeOnSelect= {!this.state.stayOpen}
                     multi
-                    onChange={this.handleSelectChange}
+                    onChange={this.handleSelectChangeAge}
                     options= {ageOptions}
                     simpleValue
                     value= {this.state.age}
@@ -172,7 +187,7 @@ export default class Profile extends Component {
                   <Select
                     closeOnSelect= {!this.state.stayOpen}
                     multi
-                    onChange={this.handleSelectChange}
+                    onChange={this.handleSelectChangeLanguages}
                     options= {languageOptions}
                     simpleValue
                     value= {this.state.languages}
@@ -188,7 +203,7 @@ export default class Profile extends Component {
                   <Select
                     closeOnSelect= {!this.state.stayOpen}
                     multi
-                    onChange={this.handleSelectChange}
+                    onChange={this.handleSelectChangeOccupaton}
                     options= {occupationOptions}
                     simpleValue
                     value= {this.state.occupation}
