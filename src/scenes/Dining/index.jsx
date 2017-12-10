@@ -29,7 +29,7 @@ export default class Dining extends Component{
       times : [],
       buttonIds: [],
       cuisine : '',
-      source : "",//"https://www.kids-world-travel-guide.com/images/french_food_macarons_shutterstock_62967172-2.jpg",
+      source : "https://www.kids-world-travel-guide.com/images/french_food_macarons_shutterstock_62967172-2.jpg",
       location: '',
       time : '',
       buttonId : '',
@@ -89,7 +89,7 @@ export default class Dining extends Component{
                 console.log("KEY  "+key + "Cuisine " + this.state.cuisine);
                 var val = newChildSnapshot.val();
                 //console.log("Cuisine Val: "+val);
-                if(key === this.state.cuisine){
+                if(key == this.state.cuisine){
                   console.log("FOund matching image for cuisine type " + this.state.cuisine);
                   console.log(val);
                   this.setState({source: val});
