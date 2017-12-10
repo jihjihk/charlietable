@@ -33,6 +33,8 @@ function recordUserPreference(eventCreated){
   //update DB on the user's preferences, ensure this is reflected 
   //for the next time that user makes a choice.
 
+
+
 }
 
 
@@ -114,14 +116,14 @@ function verifyEventUnique(inputObj){
 
 export default class NewEvent extends Component {
   constructor() {
-    super()
+    super(props)
     this.state = {
       eventName : '',
       participants: [],
       removeSelected: true,
       stayOpen: true,
       time: moment(),
-      city: '',
+      city: 'Abu Dhabi',
       venue: '',
       cuisine: '',
       conversationTopic: [],
@@ -224,26 +226,26 @@ export default class NewEvent extends Component {
     auth.onAuthStateChanged((user) => {
       if (user) {
         this.setState({ user });
+        this.getAPIData(this.props.group);
       }
     });
 
     const eventsRef = db.ref('events');
 
-    // eventsRef.on('value', (snapshot) => {
-    //   let events = snapshot.val();
-    //   let newState = [];
-    //   for (let event in events) {
-    //     newState.push({
-    //       log: event,
-    //       interest: events[event].interest,
-    //       cuisine: events[event].cuisine,
-    //       user: events[event].user
-    //     });
-    //   }
-    //   this.setState({
-    //     items: newState
-    //   });
-    // });
+    this.callAPI(this.props.group);
+
+  }
+
+  componentWillReceiveProps(nextProps) {
+
+    // Assuming parameter comes from url.
+    // let group = window.location.toString().split("/")[*indexParameterLocated*];
+    // this.UserList(group);
+
+    // Assuming parameter comes from props that from parent component.
+    let group = nextProps.group; // Maybe something like "groupTwo" 
+    this.UserList(group);
+
   }
   
   render() {

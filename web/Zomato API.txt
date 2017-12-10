@@ -100,4 +100,5 @@ Categories:
 
 4. on cuisine data and location, we can set to return multiple restaurants that match that, with rating based info
 
+city -> cuisine -> search
 
