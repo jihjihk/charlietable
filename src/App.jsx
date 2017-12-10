@@ -105,34 +105,35 @@ export default class App extends Component {
           >
             <Container>
               <Menu fixed='top' size='large' inverted>
-                  <Menu.Item as='home'><Link to="/">Home</Link></Menu.Item>
-                  <Menu.Item as='dining'><Link to="/dining">Explore</Link></Menu.Item>
-                  <Menu.Item as='newevent'><Link to="/newevent">Organize</Link></Menu.Item>
-                  <Menu.Menu position='right'>
-                    
-                    
-                      {this.state.user ?
-                          <Menu.Item as='profile'><Link to="/profile">
-                              
-                              {this.state.user.displayName+"  "}
-                              </Link>
-                              <Image style={{ marginLeft: '1em' }} src={this.state.user.photoURL} size='mini' circular />
-                          </Menu.Item>
-                          :
-                          <Menu.Item as='profile'><Link to="/profile">
-                            My Profile
+                <Menu.Item as='logo'><Image style={{ marginLeft: '1em' }} src='logo.png' /></Menu.Item>
+                <Menu.Item as='home'><Link to="/">Home</Link></Menu.Item>
+                <Menu.Item as='dining'><Link to="/dining">Explore</Link></Menu.Item>
+                <Menu.Item as='newevent'><Link to="/newevent">Organize</Link></Menu.Item>
+                <Menu.Menu position='right'>
+                  
+                  
+                    {this.state.user ?
+                        <Menu.Item as='profile'><Link to="/profile">
+                            
+                            {this.state.user.displayName+"  "}
                             </Link>
-                          </Menu.Item>
-                        
-                      }
-                      <Menu.Item>
-                        {this.state.user ?
-                            <Button as='logout' onClick={this.logout}>Log Out</Button>
-                            :
-                            <Button as='login' onClick={this.login}>Log In</Button>
-                          }
-                      </Menu.Item>
-                  </Menu.Menu>
+                            <Image style={{ marginLeft: '1em' }} src={this.state.user.photoURL} size='mini' circular />
+                        </Menu.Item>
+                        :
+                        <Menu.Item as='profile'><Link to="/profile">
+                          My Profile
+                          </Link>
+                        </Menu.Item>
+                      
+                    }
+                    <Menu.Item>
+                      {this.state.user ?
+                          <Button as='logout' onClick={this.logout}>Log Out</Button>
+                          :
+                          <Button as='login' onClick={this.login}>Log In</Button>
+                        }
+                    </Menu.Item>
+                </Menu.Menu>
             </Menu>
             </Container>
         </Segment>

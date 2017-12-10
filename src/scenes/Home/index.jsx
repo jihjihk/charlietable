@@ -32,8 +32,8 @@ export default class Home extends Component {
               style={{ fontSize: '1.7em', fontWeight: 'normal' }}
             />
             <Link to="/dining">
-              <Button primary size='huge'>
-                Find Dinners Around You
+              <Button primary size='huge' style={{ margin:"1em"}}>
+                Find Dinners Near You
                 <Icon name='right arrow' />
               </Button>
             </Link>

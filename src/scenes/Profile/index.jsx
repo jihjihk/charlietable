@@ -168,7 +168,6 @@ export default class Profile extends Component {
                   <Header as="h3"> How old are you? </Header>
                   <div className="age-group">
                   <Select
-                    closeOnSelect= {!this.state.stayOpen}
                     onChange={this.handleSelectChangeAge}
                     options= {ageOptions}
                     simpleValue
@@ -198,7 +197,6 @@ export default class Profile extends Component {
                   <Header as="h3"> What's your occupation? </Header>
                   <div className="occupation">
                   <Select
-                    closeOnSelect= {!this.state.stayOpen}
                     onChange={this.handleSelectChangeOccupation}
                     options= {occupationOptions}
                     simpleValue
@@ -210,7 +208,6 @@ export default class Profile extends Component {
                     <Header as="h3"> Where do you live? </Header>
                   <div className="location">
                   <Select
-                    closeOnSelect= {!this.state.stayOpen}
                     onChange={this.handleSelectChangeLocation}
                     options= {locationOptions}
                     simpleValue
@@ -219,7 +216,7 @@ export default class Profile extends Component {
                   />    
                                       
                   </div>
-                  <Button type="submit">Create my profile</Button>
+                  <Button type="submit" style={{margin:'1em'}}>Create my profile</Button>
                 </Form>
               </Container>
           </Segment>
