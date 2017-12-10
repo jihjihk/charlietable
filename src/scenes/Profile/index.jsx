@@ -1,8 +1,6 @@
 import React, { Component } from 'react';
 import './style.css';
-import firebase from 'firebase'
-
-import { db, auth, provider } from '../../services/firebase.js';
+import { db, auth } from '../../services/firebase.js';
 
 import Select from 'react-select';
 import 'react-select/dist/react-select.css';
@@ -10,15 +8,8 @@ import 'react-select/dist/react-select.css';
 import {
   Button,
   Container,
-  Divider,
-  Grid,
   Header,
-  Icon,
-  Image,
-  List,
-  Menu,
   Segment,
-  Visibility,
   Form
 } from 'semantic-ui-react'
 
@@ -88,7 +79,7 @@ export default class Profile extends Component {
 
    handleSubmit(e) {
     e.preventDefault();
-    const profileRef = firebase.database().ref('profile');
+    const profileRef = db.ref('profile');
 
     //we can use the imported modules from /services/firebase.js and replace firebase.auth() with auth
     const user = auth.currentUser;

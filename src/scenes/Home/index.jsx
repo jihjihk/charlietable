@@ -3,15 +3,9 @@ import {  Link } from 'react-router-dom'
 import {
   Button,
   Container,
-  Divider,
-  Grid,
   Header,
   Icon,
-  Image,
-  List,
-  Menu,
   Segment,
-  Visibility,
 } from 'semantic-ui-react'
 
 export default class Home extends Component {
@@ -39,7 +33,7 @@ export default class Home extends Component {
             />
             <Link to="/dining">
               <Button primary size='huge'>
-                Find Dinners
+                Find Dinners Around You
                 <Icon name='right arrow' />
               </Button>
             </Link>

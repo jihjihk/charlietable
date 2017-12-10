@@ -1,41 +1,15 @@
 import React, { Component } from 'react';
 import './style.css';
-import firebase from 'firebase'
-
-import DatePicker from 'react-datepicker';
 import moment from 'moment';
-
-import 'react-datepicker/dist/react-datepicker.css';
-
-import Select from 'react-select';
-import 'react-select/dist/react-select.css';
-
-import { ref, auth, provider } from '../../services/firebase.js';
+import { auth, db } from '../../services/firebase.js';
 import {
-  Button,
   Container,
-  Divider,
   Grid,
   Header,
-  Icon,
-  Image,
-  List,
-  Menu,
   Segment,
-  Visibility,
-  Form
 } from 'semantic-ui-react';
 
-import InterestMultiSelect from '../../components/Select/InterestMultiSelect.js';
 import EventTile from './components/EventTile.jsx';
-
-
-
-//  width:'200px',
-//  margins: '10px'
-//}
-//var size=0;
-
 
 export default class Dining extends Component{
   constructor() {
@@ -86,8 +60,8 @@ export default class Dining extends Component{
   }
 
   componentWillMount = () => {
-    const eventsRef = firebase.database().ref('events');
-    const imageRef = firebase.database().ref('diningImages');
+    const eventsRef = db.ref('events');
+    const imageRef = db.ref('diningImages');
     eventsRef.once("value")
     .then(snapshot => {
       snapshot.forEach(childSnapshot => {//for each event
@@ -98,13 +72,13 @@ export default class Dining extends Component{
         childSnapshot.forEach(childSnapshot => {//for each attribute of the event
           var childKey = childSnapshot.key;
           var childVal = childSnapshot.val();
-          if(childKey  == "time"){//if it is the time attribute
+          if(childKey  === "time"){//if it is the time attribute
             this.setState({time : childVal});
           }
-          if(childKey == "venue"){//if it is the venue attribute
+          if(childKey === "venue"){//if it is the venue attribute
             this.setState({location : childVal});
           }
-          if(childKey == "cuisine"){//if it is the cuisine attribute
+          if(childKey === "cuisine"){//if it is the cuisine attribute
             this.setState({cuisine: childVal});
           //  this.setState({source : "https://www.kids-world-travel-guide.com/images/french_food_macarons_shutterstock_62967172-2.jpg"})
             //this.source.setState("https://www.kids-world-travel-guide.com/images/french_food_macarons_shutterstock_62967172-2.jpg");
@@ -115,7 +89,7 @@ export default class Dining extends Component{
                 console.log("KEY  "+key + "Cuisine " + this.state.cuisine);
                 var val = newChildSnapshot.val();
                 //console.log("Cuisine Val: "+val);
-                if(key == this.state.cuisine){
+                if(key === this.state.cuisine){
                   console.log("FOund matching image for cuisine type " + this.state.cuisine);
                   console.log(val);
                   this.setState({source: val});
@@ -154,30 +128,33 @@ export default class Dining extends Component{
     console.log(this.state.images);
     return(
       <div>
-      <Segment
-      inverted
-      textAlign='center'
-      style={{ minHeight: 700, padding: '1em 0em' }}
-      vertical
-      >
-      <Container text>
-      <Header
-      as='h1'
-      content='Choose Your Dinner'
-      inverted
-      style={{ fontSize: '4em', fontWeight: 'normal', marginBottom: 0, marginTop: 0 }}
-      />
-      <Header
-      as='h2'
-      content='We Will Curate The Rest'
-      inverted
-      style={{ fontSize: '1.7em', fontWeight: 'normal' }}
-      />
-      </Container>
-      <Grid columns={4} divided>
-      {this.makeTiles()}
-      </Grid>
-      </Segment>
+        <Segment
+        textAlign='center'
+        vertical
+        inverted
+        style={{ minHeight: 400, padding: '1em 0em' }}
+        >
+          <Container text>
+            <Header
+              as='h1'
+              content='Choose Your Dinner'
+              inverted
+              style={{ fontSize: '4em', fontWeight: 'normal', marginBottom: '0.5em', marginTop: '2em' }}
+            />
+            <Header
+              as='h2'
+              inverted
+              content='We Will Curate The Rest'
+              style={{ fontSize: '2em', fontWeight: 'normal', marginBottom:'2em' }}
+            />
+          </Container>
+        </Segment>
+        <Segment vertical>
+          <Grid columns={4} container stackable verticalAlign="middle" centered>
+
+            {this.makeTiles()}
+          </Grid>
+        </Segment>
       </div>
     );
   }
