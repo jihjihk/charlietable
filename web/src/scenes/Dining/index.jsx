@@ -30,22 +30,11 @@ import InterestMultiSelect from '../../components/Select/InterestMultiSelect.js'
 import EventTile from './components/EventTile.jsx';
 
 
-var images = [];
-var cuisines = [];
-var sources = [];
-var locations = [];
-var times = [];
-var buttonIds = [];
-var cuisine = '';
-var source = "https://www.kids-world-travel-guide.com/images/french_food_macarons_shutterstock_62967172-2.jpg";
-var location = '';
-var time = '';
-var buttonId = '';
-var style = {
-  width:'200px',
-  margins: '10px'
-}
-var size=0;
+
+//  width:'200px',
+//  margins: '10px'
+//}
+//var size=0;
 
 
 export default class Dining extends Component{
@@ -59,33 +48,35 @@ export default class Dining extends Component{
       venue: '',
       cuisine: '',
       conversationTopic: [],
-      creator: ''
+      creator: '',
+      style : {
+        width:'200px',
+        margins: '10px'
+      },
+      images : [],
+      cuisines : [],
+      sources : [],
+      locations : [],
+      times : [],
+      buttonIds: [],
+      cuisine : '',
+      source : "https://www.kids-world-travel-guide.com/images/french_food_macarons_shutterstock_62967172-2.jpg",
+      location: '',
+      time : '',
+      buttonId : ''
+
+
+
     }
-    this.handleChange = this.handleChange.bind(this);
-    this.handleSubmit = this.handleSubmit.bind(this);
+    //this.handleChange = this.handleChange.bind(this);
+    //this.handleSubmit = this.handleSubmit.bind(this);
+    this.componentDidMount = this.componentDidMount.bind(this);
+    this.createEventTile = this.createEventTile.bind(this);
+    this.createEventTiles = this.createEventTiles.bind(this);
+    this.findCuisineSource = this.findCuisineSource.bind(this);
+    this.makeTiles = this.makeTiles.bind(this);
   }
 
-
-  handleChange(e) {
-    if(e._isAMomentObject){
-      this.setState({time: e});
-    }else{
-      this.setState({
-        [e.target.name]: e.target.value
-      });
-    }
-  }
-
-
-  handleSubmit(e) {
-    e.preventDefault();
-    const eventsRef = firebase.database().ref('events');
-
-    //we can use the imported modules from /services/firebase.js and replace firebase.auth() with auth
-    const user = auth.currentUser;
-    console.log(user);
-
-  }
 
   componentDidMount() {
     auth.onAuthStateChanged((user) => {
@@ -95,79 +86,95 @@ export default class Dining extends Component{
     });
     console.log("Testing Tile");
     <Image src="https://www.kids-world-travel-guide.com/images/french_food_macarons_shutterstock_62967172-2.jpg"/> //source={this.source} location="Saadiyat" time="12pm" buttonId="boop" cuisine="French" style={this.style}/>);
+    this.images.setState(this.createEventTiles());
   }
-  //createEventTile = function(location, time, cuisine, id, source){
-  //  return (<EventTile source={source} key={source} />);
-  //}
+
+  createEventTile = function(data){
+    return (<EventTile source={data[4]} key={data[3]} location={data[0]} time={data[1]} cuisine={data[2]} buttonId={data[3]}/>);
+  }
+
+
+  findCuisineSource = function(cuisine){
+    const imageRef = firebase.database().ref('diningImages');
+    this.source.setState("https://www.kids-world-travel-guide.com/images/french_food_macarons_shutterstock_62967172-2.jpg");
+    imageRef.once("value")
+    .then(function(snapshot){
+      snapshot.forEach(function(childSnapshot){
+        var key = childSnapshot.key;
+        //console.log("KEY  "+key + "Cuisine " + cuisine);
+        var val = childSnapshot.val();
+        //console.log("Cuisine Val: "+val);
+        if(key == cuisine){
+          console.log("FOund matching image for cuisine type");
+          this.source.setState(val);
+          sources.push(source);
+          return source;
+        }
+      })
+    })
+    return source;
+  }
 
   createEventTiles = function(){
     const eventsRef = firebase.database().ref('events');
-    const imageRef = firebase.database().ref('diningImages');
     eventsRef.once("value")
     .then(function(snapshot){
       snapshot.forEach(function(childSnapshot){
         var key = childSnapshot.key;
         console.log("Child Key "+key);
-        buttonId = key;
+        this.buttonId.setState(key);
         buttonIds.push(buttonId);
         size++;
         childSnapshot.forEach(function(childSnapshot){
           var childKey = childSnapshot.key;
           var childVal = childSnapshot.val();
-          if(childKey == "cuisine"){
-            //console.log("Found Cuisine");
-            cuisine = childVal;
-            cuisines.push(cuisine);
-            imageRef.once("value")
-            .then(function(snapshot){
-              snapshot.forEach(function(childSnapshot){
-                var key = childSnapshot.key;
-                //console.log("KEY  "+key + "Cuisine " + cuisine);
-                var val = childSnapshot.val();
-                //console.log("Cuisine Val: "+val);
-                if(key == cuisine){
-                  console.log("FOund matching image for cuisine type");
-                  source = val;
-                  sources.push(source);
-                  //console.log(source);
-                }
-              })
-
-            })
-          }
           if(childKey  == "time"){
-            time = childVal;
+            this.time.setState(childVal);
             times.push(time);
           }
           if(childKey == "venue"){
-            location = childVal;
+            this.location.setState(childVal);
             locations.push(location);
+          }
+          if(childKey == "cuisine"){
+            //console.log("Found Cuisine");
+            this.cuisine.setState(childVal);
+            cuisines.push(cuisine);
+            this.source.setState(this.findCuisineSource(cuisine));
+          }
+          var temp =[];
+          temp.push(location);
+          temp.push(time);
+          temp.push(cuisine);
+          temp.push(buttonId);
+          temp.push(source);
+          console.log("ATTREIBUTES "+" "+cuisine+" "+location+" "+time+" "+buttonId+" "+source);
+          console.log(temp);
+          images.push(temp);
+          for(var j=0; j<22; j++){
+            console.log("IMAGES "+images[j]);
           }
         })
         //get the image that matches the cuisine type
-        console.log(size);
-        console.log(cuisines);
-        console.log(times);
-        console.log(sources);
-        for(var i=0; i<size/2;i++){
-          console.log("I IS "+ i);
-          images.push(<EventTile location={locations[i]} source={"https://www.kids-world-travel-guide.com/images/french_food_macarons_shutterstock_62967172-2.jpg"} time={times[i]} cuisine = {cuisines[i]} buttonId={buttonIds[i]} style={style}/>);
-        }
-
+        //console.log(size);
+        //console.log(cuisines);
+        //console.log(times);
+        //console.log(sources);
       })
+
       //return (<EventTile location={location} source={source} time={time} cuisine = {cuisine} buttonId={buttonId} style={style}/>);
 
     })
-    console.log("FINAL IMAGE ARRAY "+images);
-    //return(<EventTile location={locations[i]} source={sources[i]} time={times[i]} cuisine = {cuisines[i]} buttonId={buttonIds[i]} style={style}/>);
+    //console.log("IMAGES"+images);
     return images;
   }
 
-
+  makeTiles = function(){
+    console.log("MAP IMAGES"+images);
+    return images.map(this.createEventTile);
+  }
 
   render(){
-    this.createEventTiles();
-    console.log(images);
     return(
       <div>
       <Segment
@@ -192,8 +199,8 @@ export default class Dining extends Component{
       </Container>
       <Grid columns={4} divided>
       <EventTile source={source} style={style} cuisine={cuisine} location={location} buttonId={buttonId} time={time}/>
-      {this.createEventTiles()}
-      {this.images}
+      {this.createEventTile("Balcksmith", "12pm", "booo", "French","https://www.kids-world-travel-guide.com/images/french_food_macarons_shutterstock_62967172-2.jpg")}
+      {this.makeTiles()}
       </Grid>
       </Segment>
       </div>

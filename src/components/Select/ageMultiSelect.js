@@ -18,9 +18,9 @@ const AGEGROUPS = [
   { label: "80-85", value: "80-85" },
   { label: "85-90", value: "85-90" },
   { label: "90+", value: "90+" },
-
-
-
+  
+  
+ 
 ]
 
 export default class ageMultiSelect extends Component {

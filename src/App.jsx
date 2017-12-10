@@ -26,7 +26,7 @@ import './index.css';
 import Home from './scenes/Home';
 import Dining from './scenes/Dining';
 import Profile from './scenes/Profile';
-import NewEvent from './scenes/NewEvent';
+import NewEvent from './scenes/NewEvent';	
 import firebase, { auth, db, provider } from './services/firebase.js';
 // import NewEvent from './scenes/NewEvent // <Route path="/newevent" component={NewEvent}/>
 
@@ -111,10 +111,10 @@ export default class App extends Component {
             <Container>
               <Menu fixed='top' size='large'>
                 <Menu.Menu position='right'>
-                  <Menu.Item as='home' active><Link to="/">Home</Link></Menu.Item>
+                  <Menu.Item as='home'><Link to="/">Home</Link></Menu.Item>
                   <Menu.Item as='dining'><Link to="/dining">Explore</Link></Menu.Item>
                   <Menu.Item as='newevent'><Link to="/newevent">Organize</Link></Menu.Item>
-                  <Menu.Item as='messages'>Messages</Menu.Item>
+                  
                     {this.state.user ?
                         <Menu.Item as='profile'><Link to="/profile">
                             <Image src={this.state.user.photoURL} size='mini' circular />
@@ -126,7 +126,7 @@ export default class App extends Component {
                           My Profile
                           </Link>
                         </Menu.Item>
-
+                      
                     }
                     <Menu.Item className='item'>
                       {this.state.user ?
@@ -139,7 +139,7 @@ export default class App extends Component {
             </Menu>
           </Container>
         </Segment>
-
+        
         <Switch>
           <Route path='/' exact component={Home} />
           <PrivateRoute authed={this.state.authed} user={this.state.user} path="/dining" component={Dining} />
