@@ -116,7 +116,7 @@ function verifyEventUnique(inputObj){
 
 export default class NewEvent extends Component {
   constructor() {
-    super(props)
+    super()
     this.state = {
       eventName : '',
       participants: [],
@@ -226,25 +226,25 @@ export default class NewEvent extends Component {
     auth.onAuthStateChanged((user) => {
       if (user) {
         this.setState({ user });
-        this.getAPIData(this.props.group);
+        // this.getAPIData(this.props.group);
       }
     });
 
     const eventsRef = db.ref('events');
 
-    this.callAPI(this.props.group);
+    // this.callAPI(this.props.group);
 
   }
 
   componentWillReceiveProps(nextProps) {
 
-    // Assuming parameter comes from url.
-    // let group = window.location.toString().split("/")[*indexParameterLocated*];
-    // this.UserList(group);
+    // // Assuming parameter comes from url.
+    // // let group = window.location.toString().split("/")[*indexParameterLocated*];
+    // // this.UserList(group);
 
-    // Assuming parameter comes from props that from parent component.
-    let group = nextProps.group; // Maybe something like "groupTwo" 
-    this.UserList(group);
+    // // Assuming parameter comes from props that from parent component.
+    // let group = nextProps.group; // Maybe something like "groupTwo" 
+    // this.UserList(group);
 
   }
   
