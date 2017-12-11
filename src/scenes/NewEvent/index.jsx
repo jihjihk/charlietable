@@ -160,6 +160,10 @@ export default class NewEvent extends Component {
     this.handleSelectChange = this.handleSelectChange.bind(this);
     this.changedCityOptions = this.changedCityOptions.bind(this);
     this.getCityOptions = this.getCityOptions.bind(this);
+    this.changedCuisineOptions= this.changedCuisineOptions.bind(this);
+    this.getCuisineOptions=this.getCuisineOptions.bind(this);
+
+
     }
 
     changedCityOptions(value){ 
@@ -171,11 +175,21 @@ export default class NewEvent extends Component {
 
     };
 
+
+    changedCuisineOptions(value){ 
+
+      this.setState({
+        setCuisine:true,
+        cuisine: value
+      });
+    };
+
     getCityOptions(input, callback){
     
-    this.setCity=false
-
     clearTimeout(this.changeCityListener);
+     this.setState({
+          setCity:false
+      });
 
     this.changeCityListener = setTimeout( () => {
       var returnArr=[];
@@ -209,10 +223,50 @@ export default class NewEvent extends Component {
 
     }, 500);
 
-
-
   };
 
+  getCuisineOptions(input, callback){
+    
+    clearTimeout(this.changeCuisineListener);
+     this.setState({
+          setCuisine:false
+      });
+
+    this.changeCuisineListener = setTimeout( () => {
+      var returnArr=[];
+
+      var options = {
+            method: 'GET',
+            url: API_END_POINT + '/cuisines?city_id='+this.state.city.value,
+            headers: {
+                'user-key': ACCESS_TOKEN,
+                'content-type': 'application/json'
+            }
+        };
+        
+        request(options, function(error, response, body) {
+          var responseVal=  JSON.parse(response.body).cuisines
+          console.log(responseVal);
+          for (var i=0; i<responseVal.length;i++){
+              var option = {
+                value: responseVal[i].cuisine.cuisine_id.toString(),
+                label: responseVal[i].cuisine.cuisine_name
+              }
+              console.log(option);
+              returnArr.push(option);
+            }      
+        
+          callback(null, {
+              options: returnArr,
+              // CAREFUL! Only set this to true when there are no more options,
+              // or more specific queries will not be sent to the server.
+              complete: true
+          });
+      });
+
+    }, 500);
+
+  };
 
   handleChange(e) {
     if(e._isAMomentObject){
@@ -230,8 +284,6 @@ export default class NewEvent extends Component {
       conversationTopic: value
     });
   }
-
- 
 
 
 
@@ -305,9 +357,6 @@ export default class NewEvent extends Component {
         alert("please first login");
     }
 
-
-
-
   }
 
 
@@ -353,7 +402,7 @@ export default class NewEvent extends Component {
                 <div className="section">
                  <Header as="h3">City</Header>
                   <Async
-                    className="section"
+                    className="city"
                     autoload={false}
                     value={this.state.city}
                     closeOnSelect={!this.state.stayOpen}
@@ -361,10 +410,21 @@ export default class NewEvent extends Component {
                     loadOptions={this.getCityOptions}
                     placeholder="Which city is this event held at?"
                   />
+                </div>
+                <div className="section">
+                 <Header as="h3">Cuisine</Header>
+                  <Async
+                    className="cuisine"
+                    autoload={false}
+                    value={this.state.cuisine}
+                    closeOnSelect={!this.state.stayOpen}
+                    onChange={this.changedCuisineOptions}
+                    loadOptions={this.getCuisineOptions}
+                    placeholder="Which cuisine do you like?"
+                  />
                 </div>   
                 <Form.Group>
-                 <Form.Input label='Cuisine' placeholder="French, Thai, or Beer?" type="text" name="cuisine" 
-                    onChange={this.handleChange} value={this.state.cuisine} />
+                
                   <Form.Input label='Venue Name' placeholder="Which restaurant/bar will it be at?" type="text" name="venue" 
                     onChange={this.handleChange} value={this.state.venue} />
                 </Form.Group>
