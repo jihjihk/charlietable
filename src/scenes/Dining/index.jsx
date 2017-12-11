@@ -10,6 +10,8 @@ import {
 } from 'semantic-ui-react';
 
 import EventTile from './components/EventTile.jsx';
+import RSVP from './rsvp.jsx';
+
 
 export default class Dining extends Component{
   constructor() {
@@ -34,6 +36,7 @@ export default class Dining extends Component{
       buttonId : '',
       style : {
         width:'200px',
+        height: '200px',
         margins: '10px'
       }
     };
@@ -116,15 +119,27 @@ export default class Dining extends Component{
     return this.state.images.map(this.createEventTile);
   }
 
+  //registering RSVP data and changing the database accordingl
+  // handleChange(){
+  //   console.log("CLikcing on Button: ");
+  //   const id = "-L-qpHhJ7fEvE6sWZI84";
+  //   const eventsRef = db.ref('events'/${buttonId});
+  //   const.user = auth.currentUser;
+  //
+  //
+  //
+  // }
+  //
+
   render(){
-    console.log(this.state.images);
     return(
       <div>
         <Segment
         textAlign='center'
+        style={{ minHeight: 400, padding: '1em 0em', background: 'linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url("https://www.romeing.it/wp-content/uploads/2017/03/rome-international-food-guide-1-e1489424047884.jpg")',
+                  backgroundRepeat: 'no-repeat', backgroundPosition: 'center', backgroundSize: 'cover', opacity:'0.9'}}
         vertical
         inverted
-        style={{ minHeight: 400, padding: '1em 0em' }}
         >
           <Container text>
             <Header
@@ -143,7 +158,6 @@ export default class Dining extends Component{
         </Segment>
         <Segment vertical>
           <Grid columns={4} container stackable verticalAlign="middle" centered>
-
             {this.makeTiles()}
           </Grid>
         </Segment>
