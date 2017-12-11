@@ -21,7 +21,7 @@ const DATA = require('../../data/interests');
 
 function recordUserPreference(eventCreated){
 
-  //update DB on the user's preferences, ensure this is reflected 
+  //update DB on the user's preferences, ensure this is reflected
   //for the next time that user makes a choice.
 
 }
@@ -124,20 +124,20 @@ export default class NewEvent extends Component {
 
   }
 
-  
-  
+
+
   handleChange(e) {
     if(e._isAMomentObject){
       this.setState({time: e});
     }
-    
+
     else {
-      this.setState( 
-        { [e.target.name]: e.target.value } 
+      this.setState(
+        { [e.target.name]: e.target.value }
         )
       }
     }
-  
+
   handleSelectChange (value) {
     this.setState({
       conversationTopic: value
@@ -171,11 +171,11 @@ export default class NewEvent extends Component {
       const result= verifyInput(event);
 
       if(result.success){
-        
+
         if(!verifyEventUnique(event)){
-        
+
         alert("there already exists an event just like this.")
-        
+
         }else{
 
           alert(result.success);
@@ -236,7 +236,7 @@ export default class NewEvent extends Component {
     //   });
     // });
   }
-  
+
   render() {
     var options = DATA.INTERESTS;
     return (
@@ -246,15 +246,15 @@ export default class NewEvent extends Component {
           <Container text>
               <Form onSubmit={this.handleSubmit}>
                 <Form.Group>
-                  <Form.Input label='Event Name' placeholder='What is the event called?' type="text" name="eventName" 
+                  <Form.Input label='Event Name' placeholder='What is the event called?' type="text" name="eventName"
                     onChange={this.handleChange} value={this.state.eventName} />
-                  <Form.Input label='City' placeholder='Where are you hosting it?' type="text" name="city" 
+                  <Form.Input label='City' placeholder='Where are you hosting it?' type="text" name="city"
                     onChange={this.handleChange} value={this.state.city} />
                 </Form.Group>
                 <Form.Group>
-                  <Form.Input label='Venue Name' placeholder="Which restaurant/bar will it be at?" type="text" name="venue" 
+                  <Form.Input label='Venue Name' placeholder="Which restaurant/bar will it be at?" type="text" name="venue"
                     onChange={this.handleChange} value={this.state.venue} />
-                  <Form.Input label='Cuisine' placeholder="French, Thai, or Beer?" type="text" name="cuisine" 
+                  <Form.Input label='Cuisine' placeholder="French, Thai, or Beer?" type="text" name="cuisine"
                     onChange={this.handleChange} value={this.state.cuisine} />
                 </Form.Group>
                 <Header as="h3">Pick 3 Potential Conversation Topics</Header>
@@ -269,7 +269,7 @@ export default class NewEvent extends Component {
                     value={this.state.conversationTopic}
                     removeSelected={this.state.removeSelected}
                   />
-                </div>                    
+                </div>
                 <Header as="h3">Time and Date</Header>
                 <DatePicker
                     selected={this.state.time}
