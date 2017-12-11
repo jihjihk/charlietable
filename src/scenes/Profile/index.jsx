@@ -42,6 +42,7 @@ export default class Profile extends Component {
     this.handleSelectChangeLanguages = this.handleSelectChangeLanguages.bind(this);
     this.handleSelectChangeOccupation = this.handleSelectChangeOccupation.bind(this);
     this.handleSelectChangeLocation = this.handleSelectChangeLocation.bind(this);
+    this.handleProfileCreation = this.handleProfileCreation.bind(this);
   }
   handleSelectChangeInterests (value) {
    this.setState({
@@ -80,7 +81,7 @@ export default class Profile extends Component {
 
  handleProfileCreation(userID){
   const profileRef = db.ref('profile');
-  
+  //this.state.newProfile= true;
   profileRef.once("value")
   .then(snapshot=> {
     var data = snapshot.val();
@@ -90,15 +91,16 @@ export default class Profile extends Component {
         console.log(data[key].creator)
         if(userID == data[key].creator){
           console.log("yes")
-          //this.state.newProfile= false;
-           this.setState({
-            userInterests: data[key].userInterests,
-            age: data[key].userAge,
-            occupation: data[key].userOccupation,
-            languages: data[key].userLanguages,
-            gender: data[key].userGender,
-            newProfile: false
+          this.setState({
+          newProfile: false,
+          userInterests: data[key].userInterests,
+          age: data[key].userAge,
+          occupation: data[key].userOccupation,
+          languages: data[key].userLanguages,
+          gender:data[key].userGender,
+          location: data[key].userLocation
   });
+          
     
         }
     } )
@@ -125,11 +127,13 @@ handleSubmit(e) {
         userLanguages: this.state.languages.split(","),
         userOccupation: this.state.occupation,
         userGender: this.state.gender,
-        creator: user.G,
+        creator: user.uid,
         userLocation: this.state.location
       }
 
       profileRef.push(profile);
+      
+     
 
       this.setState({
         userInterests: [],
@@ -144,11 +148,13 @@ handleSubmit(e) {
     } else{
       alert("please first login");
     }
+   
 
   }
-  componentWillMount() {
+  componentDidMount() {
     const user = auth.currentUser;
-    this.handleProfileCreation(user.G);
+    this.handleProfileCreation(user.uid);
+    
     //const theProfile= this.handleProfileCreation(user.G)
     //this.setState({newProfile: this.handleProfileCreation(user.G) });
 
