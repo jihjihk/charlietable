@@ -90,13 +90,14 @@ export default class Profile extends Component {
         console.log(data[key].creator)
         if(userID == data[key].creator){
           console.log("yes")
-          this.state.newProfile= false;
+          //this.state.newProfile= false;
            this.setState({
             userInterests: data[key].userInterests,
             age: data[key].userAge,
             occupation: data[key].userOccupation,
             languages: data[key].userLanguages,
-            gender: data[key].userGender
+            gender: data[key].userGender,
+            newProfile: false
   });
     
         }
@@ -147,8 +148,9 @@ handleSubmit(e) {
   }
   componentWillMount() {
     const user = auth.currentUser;
+    this.handleProfileCreation(user.G);
     //const theProfile= this.handleProfileCreation(user.G)
-    this.setState({newProfile: this.handleProfileCreation(user.G) });
+    //this.setState({newProfile: this.handleProfileCreation(user.G) });
 
   }
 
@@ -162,31 +164,16 @@ handleSubmit(e) {
     var locationOptions= LOCATIONDATA.LOCATIONS;
 
     const newProfile = this.state.newProfile
+    console.log(newProfile)
 
+    var renderObject
 
-    return (
-      <div>
-        <Segment>
-
-          { !newProfile ?
-
-            <Container text>
-
-            <Header as="h1" textAlign="center"> My profile</Header>
-            <Header as="h3"> {"Gender: "+this.state.gender}</Header>
-            <Header as="h3"> {"Interests: "+this.state.userInterests} </Header>
-            <Header as="h3" > {"Age: " + this.state.age}</Header>
-            <Header as="h3" >{"Languages: " +this.state.languages}</Header>
-            <Header as="h3" > {"Occupation: " +this.state.occupation} </Header>
-            <Header as="h3" > {"Location: " +this.state.location} </Header>
-            </Container>
-          
-          :
-
-            <Container text>
-            <Header as="h1" textAlign="center">"Tell us about yourself!"</Header>
-
-            <Form onSubmit={this.handleSubmit}>
+    if(newProfile==true){
+        renderObject= 
+        <Container text>
+        <Header as="h1" textAlign="center">"Tell us about yourself!"</Header>
+      
+        <Form onSubmit={this.handleSubmit}>
 
             <Header as="h3"> Gender </Header>
             <div className="gender">
@@ -267,7 +254,29 @@ handleSubmit(e) {
             <Button type="submit">Create my profile</Button>
             </Form>
             </Container>
-          }
+
+    }
+    else if (newProfile==false){
+      renderObject = 
+            <Container text>
+
+            <Header as="h1" textAlign="center"> My profile</Header>
+            <Header as="h3"> {"Gender: "+this.state.gender}</Header>
+            <Header as="h3"> {"Interests: "+this.state.userInterests} </Header>
+            <Header as="h3" > {"Age: " + this.state.age}</Header>
+            <Header as="h3" >{"Languages: " +this.state.languages}</Header>
+            <Header as="h3" > {"Occupation: " +this.state.occupation} </Header>
+            <Header as="h3" > {"Location: " +this.state.location} </Header>
+            </Container>
+    }
+
+
+
+    return (
+      <div>
+        <Segment>
+
+          {renderObject}
         </Segment>
       </div>
     );
