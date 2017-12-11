@@ -31,22 +31,14 @@ export default class Dining extends Component{
       cuisine : '',
       source : "https://www.kids-world-travel-guide.com/images/french_food_macarons_shutterstock_62967172-2.jpg",
       location: '',
-      time : '',
       buttonId : '',
       style : {
         width:'200px',
         margins: '10px'
       }
     };
-    //this.handleChange = this.handleChange.bind(this);
-    //this.handleSubmit = this.handleSubmit.bind(this);
-    //this.componentWillMount = this.componentDidMount.bind(this);
 
     this.createEventTile = this.createEventTile.bind(this);
-    //this.createEventTiles = this.createEventTiles.bind(this);
-    //this.findCuisineSource = this.findCuisineSource.bind(this);
-    //this.makeTiles = this.makeTiles.bind(this);
-    //this.renderTiles = this.renderTiles.bind(this);
   }
 
 
@@ -56,68 +48,68 @@ export default class Dining extends Component{
         this.setState({ user });
       }
     });
-    console.log("Testing Tile");//source={this.source} location="Saadiyat" time="12pm" buttonId="boop" cuisine="French" style={this.style}/>);
+    console.log("Testing Tile");
   }
 
   componentWillMount = () => {
     const eventsRef = db.ref('events');
     const imageRef = db.ref('diningImages');
+    let joined = [];
     eventsRef.once("value")
     .then(snapshot => {
-      snapshot.forEach(childSnapshot => {//for each event
+      snapshot.forEach(childSnapshot => {//for each event assign a new ID
+        let temp = [];
         var key = childSnapshot.key;
         console.log("Child Key "+key);
         this.setState({buttonId: key});//event id
-        //this.size++;
-        childSnapshot.forEach(childSnapshot => {//for each attribute of the event
+        temp[0] = key;
+
+        /**for each attribute of the event assign the different
+        components to the temporary array that will build the event tile**/
+        childSnapshot.forEach(childSnapshot => {
           var childKey = childSnapshot.key;
           var childVal = childSnapshot.val();
           if(childKey  === "time"){//if it is the time attribute
             this.setState({time : childVal});
+            temp[1] = childVal;
           }
           if(childKey === "venue"){//if it is the venue attribute
             this.setState({location : childVal});
+            temp[2] = childVal;
           }
           if(childKey === "cuisine"){//if it is the cuisine attribute
             this.setState({cuisine: childVal});
-          //  this.setState({source : "https://www.kids-world-travel-guide.com/images/french_food_macarons_shutterstock_62967172-2.jpg"})
-            //this.source.setState("https://www.kids-world-travel-guide.com/images/french_food_macarons_shutterstock_62967172-2.jpg");
+            temp[3] = childVal;
+
+            /**once the cuisine attribute is found,
+            look through the image database to find the corresponding image location**/
             imageRef.once("value")
-            .then(newSnapshot => {
-              newSnapshot.forEach(newChildSnapshot => {
-                var key = newChildSnapshot.key;
-                console.log("KEY  "+key + "Cuisine " + this.state.cuisine);
-                var val = newChildSnapshot.val();
-                //console.log("Cuisine Val: "+val);
-                if(key == this.state.cuisine){
-                  console.log("FOund matching image for cuisine type " + this.state.cuisine);
-                  console.log(val);
-                  this.setState({source: val});
-                  //sources.push(source);
-                  //return source;
-                }
-              })
-            })
+              .then((newSnapshot) => {
+                newSnapshot.forEach(newChildSnapshot => {
+                  if(newChildSnapshot.key === childVal){
+                    this.setState({source: newChildSnapshot.val()})
+                    temp[4] = newChildSnapshot.val();
+                    joined = this.state.images.push(temp);
+
+                  }
+                })
+              }, (error) => {
+                console.log("ERROR:",error)
+              });
           }
-        })
-        var temp =[];
-        temp.push(this.state.location);
-        temp.push(this.state.time);
-        temp.push(this.state.cuisine);
-        temp.push(this.state.buttonId);
-        temp.push(this.state.source);
-        //console.log("ATTREIBUTES "+" "+cuisine+" "+location+" "+time+" "+buttonId+" "+source);
-        console.log(temp);
-        //this.setState(images: images.push(temp))
-        var joined = this.state.images.push(temp);
-        this.setState(this.state.images: joined);
-      })
-    })//finished going through all events here
-    //return this.state.images;
+        });
+      });
+    })
+    .then(()=>{
+      this.setState(this.state.images: joined);
+    }, (error) => {
+      console.error(error);
+    });
+    return Promise.all(this.state.images);
   }
 
   createEventTile = function(data){
-    return (<EventTile src={data[4]} key={data[3]} venue={data[0]} timePlace={data[1]} food={data[2]} id={data[3]}/>);
+    return (<EventTile src={data[4]} key={data[0]} venue={data[2]} timePlace={data[1]} food={data[3]} id={data[0]}/>);
   }
 
   makeTiles = function(){
