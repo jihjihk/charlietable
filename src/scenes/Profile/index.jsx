@@ -31,9 +31,10 @@ export default class Profile extends Component {
       location:'',
       gender: '',
       stayOpen: true,
-      removeSelected: true
+      removeSelected: true,
+      newProfile: true
 
-          }
+    }
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleSelectChangeInterests = this.handleSelectChangeInterests.bind(this);
@@ -42,44 +43,75 @@ export default class Profile extends Component {
     this.handleSelectChangeOccupation = this.handleSelectChangeOccupation.bind(this);
     this.handleSelectChangeLocation = this.handleSelectChangeLocation.bind(this);
   }
-   handleSelectChangeInterests (value) {
-     this.setState({
-        userInterests: value
-      });
-  }
-   handleSelectChangeAge (value) {
-     this.setState({
-        age: value
-      });
-  }
-   handleSelectChangeLanguages (value) {
-     this.setState({
-        languages: value
-      });
-  }
-   handleSelectChangeOccupation (value) {
-     this.setState({
-        occupation: value
-      });
-  }
-   handleSelectChangeLocation (value) {
-     this.setState({
-        location: value
-      });
-  }
+  handleSelectChangeInterests (value) {
+   this.setState({
+    userInterests: value
+  });
+ }
+ handleSelectChangeAge (value) {
+   this.setState({
+    age: value
+  });
+ }
+ handleSelectChangeLanguages (value) {
+   this.setState({
+    languages: value
+  });
+ }
+ handleSelectChangeOccupation (value) {
+   this.setState({
+    occupation: value
+  });
+ }
+ handleSelectChangeLocation (value) {
+   this.setState({
+    location: value
+  });
+ }
 
 
-  handleChange(e) {
- 
-     this.setState({
-          [e.target.name]: e.target.value
-        });
+ handleChange(e) {
+
+   this.setState({
+    [e.target.name]: e.target.value
+  });
+
+ }
+
+ handleProfileCreation(userID){
+  const profileRef = db.ref('profile');
+  
+  profileRef.once("value")
+  .then(snapshot=> {
+    var data = snapshot.val();
+    snapshot.forEach(childSnapshot=>{
+       var key = childSnapshot.key;
+        console.log("Child Key "+key);
+        console.log(data[key].creator)
+        if(userID == data[key].creator){
+          console.log("yes")
+          //this.state.newProfile= false;
+           this.setState({
+            userInterests: data[key].userInterests,
+            age: data[key].userAge,
+            occupation: data[key].userOccupation,
+            languages: data[key].userLanguages,
+            gender: data[key].userGender,
+            newProfile: false
+  });
     
-  }
+        }
+    } )
+    
+      
+  
+  });
+}
 
-   handleSubmit(e) {
-    e.preventDefault();
-    const profileRef = db.ref('profile');
+
+handleSubmit(e) {
+  e.preventDefault();
+  const profileRef = db.ref('profile');
 
     //we can use the imported modules from /services/firebase.js and replace firebase.auth() with auth
     const user = auth.currentUser;
@@ -110,117 +142,145 @@ export default class Profile extends Component {
       this.props.history.push('/');
 
     } else{
-        alert("please first login");
+      alert("please first login");
     }
 
   }
-  componentDidMount() {
-    auth.onAuthStateChanged((user) => {
-      if (user) {
-        this.setState({ user });
-      }
-    });
+  componentWillMount() {
+    const user = auth.currentUser;
+    this.handleProfileCreation(user.G);
+    //const theProfile= this.handleProfileCreation(user.G)
+    //this.setState({newProfile: this.handleProfileCreation(user.G) });
 
-    const profileRef= db.ref('profile');
+  }
 
+
+
+  render() {
+    var interestOptions= INTERESTSDATA.INTERESTS;
+    var ageOptions= AGEDATA.AGEGROUPS;
+    var languageOptions= LANGUAGEDATA.LANGUAGES;
+    var occupationOptions= OCCUPATIONDATA.OCCUPATIONS;
+    var locationOptions= LOCATIONDATA.LOCATIONS;
+
+    const newProfile = this.state.newProfile
+    console.log(newProfile)
+
+    var renderObject
+
+    if(newProfile==true){
+        renderObject= 
+        <Container text>
+        <Header as="h1" textAlign="center">"Tell us about yourself!"</Header>
+      
+        <Form onSubmit={this.handleSubmit}>
+
+            <Header as="h3"> Gender </Header>
+            <div className="gender">
+            <Form.Group>
+            <Form.Input type="text" name="gender" 
+            onChange={this.handleChange} value={this.state.gender} />
+            </Form.Group>
+            </div>
+
+            <Header as="h3"> What are your interests? </Header>
+            <div className="interest">
+            <Select
+            closeOnSelect= {!this.state.stayOpen}
+            multi
+            onChange={this.handleSelectChangeInterests}
+            options= {interestOptions}
+            placeholder="e.g. Hiking, Spanish language, Meditation..."
+            simpleValue
+            value= {this.state.userInterests}
+            removeSelected={this.state.removeSelected}
+            />    
+
+            </div>
+
+            <Header as="h3"> How old are you? </Header>
+            <div className="age-group">
+            <Select
+            closeOnSelect= {!this.state.stayOpen}
+            onChange={this.handleSelectChangeAge}
+            options= {ageOptions}
+            simpleValue
+            value= {this.state.age}
+            removeSelected={this.state.removeSelected}
+            />    
+
+
+            </div>
+
+            <Header as="h3"> What languages do you speak? </Header>
+            <div className="languages">
+            <Select
+            closeOnSelect= {!this.state.stayOpen}
+            multi
+            onChange={this.handleSelectChangeLanguages}
+            options= {languageOptions}
+            simpleValue
+            value= {this.state.languages}
+            removeSelected={this.state.removeSelected}
+            />    
+
+            </div>
+
+
+            <Header as="h3"> What's your occupation? </Header>
+            <div className="occupation">
+            <Select
+            closeOnSelect= {!this.state.stayOpen}
+            onChange={this.handleSelectChangeOccupation}
+            options= {occupationOptions}
+            simpleValue
+            value= {this.state.occupation}
+            removeSelected={this.state.removeSelected}
+            />    
+
+            </div>
+            <Header as="h3"> Where do you live? </Header>
+            <div className="location">
+            <Select
+            closeOnSelect= {!this.state.stayOpen}
+            onChange={this.handleSelectChangeLocation}
+            options= {locationOptions}
+            simpleValue
+            value= {this.state.location}
+            removeSelected={this.state.removeSelected}
+            />    
+
+            </div>
+            <Button type="submit">Create my profile</Button>
+            </Form>
+            </Container>
 
     }
-
-
-    render() {
-      var interestOptions= INTERESTSDATA.INTERESTS;
-      var ageOptions= AGEDATA.AGEGROUPS;
-      var languageOptions= LANGUAGEDATA.LANGUAGES;
-      var occupationOptions= OCCUPATIONDATA.OCCUPATIONS;
-      var locationOptions= LOCATIONDATA.LOCATIONS;
-
-      return (
-        
-        <div>
-          <Segment style={{ padding: '8em 0em' }} vertical>
-            <Header as="h1" textAlign="center" content="Tell us about yourself!" />
+    else if (newProfile==false){
+      renderObject = 
             <Container text>
-                <Form onSubmit={this.handleSubmit}>
-                   
-                   <Header as="h3"> Gender </Header>
-                   <div className="gender">
-                   <Form.Group>
-                    <Form.Input type="text" name="gender" 
-                      onChange={this.handleChange} value={this.state.gender} />
-                  </Form.Group>
-                  </div>
-                
-                  <Header as="h3"> What are your interests? </Header>
-                  <div className="interest">
-                  <Select
-                    closeOnSelect= {!this.state.stayOpen}
-                    multi
-                    onChange={this.handleSelectChangeInterests}
-                    options= {interestOptions}
-                    placeholder="e.g. Hiking, Spanish language, Meditation..."
-                    simpleValue
-                    value= {this.state.userInterests}
-                    removeSelected={this.state.removeSelected}
-                  />    
-                                      
-                  </div>
 
-                  <Header as="h3"> How old are you? </Header>
-                  <div className="age-group">
-                  <Select
-                    onChange={this.handleSelectChangeAge}
-                    options= {ageOptions}
-                    simpleValue
-                    value= {this.state.age}
-                    removeSelected={this.state.removeSelected}
-                  />    
-                                      
-                 
-                    </div>
-
-                  <Header as="h3"> What languages do you speak? </Header>
-                  <div className="languages">
-                  <Select
-                    closeOnSelect= {!this.state.stayOpen}
-                    multi
-                    onChange={this.handleSelectChangeLanguages}
-                    options= {languageOptions}
-                    simpleValue
-                    value= {this.state.languages}
-                    removeSelected={this.state.removeSelected}
-                  />    
-                                      
-                  </div>
-
-                
-
-                  <Header as="h3"> What's your occupation? </Header>
-                  <div className="occupation">
-                  <Select
-                    onChange={this.handleSelectChangeOccupation}
-                    options= {occupationOptions}
-                    simpleValue
-                    value= {this.state.occupation}
-                    removeSelected={this.state.removeSelected}
-                  />    
-                                      
-                  </div>
-                    <Header as="h3"> Where do you live? </Header>
-                  <div className="location">
-                  <Select
-                    onChange={this.handleSelectChangeLocation}
-                    options= {locationOptions}
-                    simpleValue
-                    value= {this.state.location}
-                    removeSelected={this.state.removeSelected}
-                  />    
-                                      
-                  </div>
-                  <Button type="submit" style={{margin:'1em'}}>Create my profile</Button>
-                </Form>
-              </Container>
-          </Segment>
-        </div>
-      );
+            <Header as="h1" textAlign="center"> My profile</Header>
+            <Header as="h3"> {"Gender: "+this.state.gender}</Header>
+            <Header as="h3"> {"Interests: "+this.state.userInterests} </Header>
+            <Header as="h3" > {"Age: " + this.state.age}</Header>
+            <Header as="h3" >{"Languages: " +this.state.languages}</Header>
+            <Header as="h3" > {"Occupation: " +this.state.occupation} </Header>
+            <Header as="h3" > {"Location: " +this.state.location} </Header>
+            </Container>
     }
+
+
+
+    return (
+      <div>
+        <Segment>
+
+          {renderObject}
+        </Segment>
+      </div>
+    );
   }
+}
+
+      
