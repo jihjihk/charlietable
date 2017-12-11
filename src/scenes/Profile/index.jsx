@@ -10,7 +10,12 @@ import {
   Container,
   Header,
   Segment,
-  Form
+  Form,
+  Grid,
+  Card,
+  List,
+  Label,
+  Icon
 } from 'semantic-ui-react'
 
 const AGEDATA = require('../../data/age-groups')
@@ -32,7 +37,7 @@ export default class Profile extends Component {
       gender: '',
       stayOpen: true,
       removeSelected: true,
-      newProfile: true
+      newProfile: true,
 
     }
     this.handleChange = this.handleChange.bind(this);
@@ -78,7 +83,14 @@ export default class Profile extends Component {
   });
 
  }
-
+/*
+ handleEditButton (e) {
+  this.setState({
+    newProfile: true
+  })
+  this.forceUpdate();
+ }
+*/
  handleProfileCreation(userID){
   const profileRef = db.ref('profile');
   //this.state.newProfile= true;
@@ -117,9 +129,8 @@ handleSubmit(e) {
 
     //we can use the imported modules from /services/firebase.js and replace firebase.auth() with auth
     const user = auth.currentUser;
-    console.log(user);
-    if(user){
 
+    if(user){
       const profile = {
         userName : user.displayName,
         userInterests: this.state.userInterests.split(","),
@@ -128,13 +139,11 @@ handleSubmit(e) {
         userOccupation: this.state.occupation,
         userGender: this.state.gender,
         creator: user.uid,
-        userLocation: this.state.location
+        userLocation: this.state.location,
       }
 
       profileRef.push(profile);
-      
-     
-
+            
       this.setState({
         userInterests: [],
         age: '',
@@ -143,6 +152,7 @@ handleSubmit(e) {
         gender: '',
         location: ''
       });
+      
       this.props.history.push('/');
 
     } else{
@@ -172,15 +182,13 @@ handleSubmit(e) {
     const newProfile = this.state.newProfile
     console.log(newProfile)
 
+    const user = auth.currentUser;
     var renderObject
 
     if(newProfile==true){
         renderObject= 
-        <Container text>
-        <Header as="h1" textAlign="center">"Tell us about yourself!"</Header>
-      
-        <Form onSubmit={this.handleSubmit}>
-
+        <Container text>      
+          <Form style={{margin:"1em", padding:"1em"}}onSubmit={this.handleSubmit}>
             <Header as="h3"> Gender </Header>
             <div className="gender">
             <Form.Group>
@@ -257,7 +265,7 @@ handleSubmit(e) {
             />    
 
             </div>
-            <Button type="submit">Create my profile</Button>
+            <Button style={{marginTop:'3em', marginBottom:'3em'}} type="submit">Create my profile</Button>
             </Form>
             </Container>
 
@@ -265,25 +273,93 @@ handleSubmit(e) {
     else if (newProfile==false){
       renderObject = 
             <Container text>
+              <Header as="h1" textAlign="center" style={{margin:"2em"}}> My Profile</Header>
+              
+              <Grid container stackable>
+                <Grid.Row>
+                  <Grid.Column width={6}>
+                    <Card
+                      image={user.photoURL}
+                      header={user.displayName}
+                      meta={this.state.location}
+                      extra={
+                        occupationOptions[occupationOptions.findIndex(obj => obj['value'] === this.state.occupation)]['label']
+                      }
+                    />
+                    <Button icon labelPosition='left' fluid>
+                      <Icon name="setting" />
+                      Edit
+                    </Button>
+                  </Grid.Column>
 
-            <Header as="h1" textAlign="center"> My profile</Header>
-            <Header as="h3"> {"Gender: "+this.state.gender}</Header>
-            <Header as="h3"> {"Interests: "+this.state.userInterests} </Header>
-            <Header as="h3" > {"Age: " + this.state.age}</Header>
-            <Header as="h3" >{"Languages: " +this.state.languages}</Header>
-            <Header as="h3" > {"Occupation: " +this.state.occupation} </Header>
-            <Header as="h3" > {"Location: " +this.state.location} </Header>
+                  <Grid.Column width={10}>
+                    <Header as="h2" content="Interests" />
+                    <List horizontal>
+                      {this.state.userInterests.map(function(interest) {
+                        var label = interestOptions.findIndex(obj => obj['value'] === interest)
+                        return (
+                          <List.Item>
+                            <List.Content>
+                              <Label style={{fontSize:"1em"}} as='a' color='teal'>
+                                {interestOptions[label]['label']}
+                              </Label>
+                            </List.Content>
+                          </List.Item>
+                        )
+                      })}
+                    </List>
+                    
+                    <Header as="h2" content="Languages" />
+                    <List horizontal>
+                      {this.state.languages.map(function(language) {
+                        var label = languageOptions.findIndex(obj => obj['value'] === language)
+                        return (
+                          <List.Item>
+                            <List.Content>
+                              <Label style={{fontSize:"1em"}} as='a' color='yellow'>
+                               {languageOptions[label]['label']}
+                              </Label>
+                            </List.Content>
+                          </List.Item>
+                        )
+                      })}
+                    </List>
+                  </Grid.Column>
+                </Grid.Row>
+              </Grid>
+
+              
             </Container>
     }
 
 
 
     return (
-      <div>
-        <Segment>
+      <div style={{marginBottom:"2em"}}>
+        <Segment
+        textAlign='center'
+        style={{ minHeight: 400, padding: '1em 0em', background: 'linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url("https://si.wsj.net/public/resources/images/BN-TW891_invest_J_20170615160045.jpg")',
+                  backgroundRepeat: 'no-repeat', backgroundPosition: 'center', backgroundSize: 'cover', opacity:'0.9'}}
+        vertical
+        inverted
+        >
+          <Container>
+            <Header
+              as='h1'
+              content='Tell us about yourself'
+              inverted
+              style={{ fontSize: '4em', fontWeight: 'bold', marginBottom: '0.5em', marginTop: '2em' }}
+            />
+            <Header
+              as='h2'
+              inverted
+              content='We will curate the best events for you'
+              style={{ fontSize: '2em', fontWeight: 'normal', marginBottom:'2em' }}
+            />
+          </Container>
+        </Segment>
 
           {renderObject}
-        </Segment>
       </div>
     );
   }
