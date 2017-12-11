@@ -1,6 +1,4 @@
 import React, { Component } from 'react';
-import firebase from 'firebase'
-
 import DatePicker from 'react-datepicker';
 import moment from 'moment';
 
@@ -10,19 +8,12 @@ import Select from 'react-select';
 import 'react-select/dist/react-select.css';
 import './style.css';
 
-import { db, auth, provider } from '../../services/firebase.js';
+import { db, auth } from '../../services/firebase.js';
 import {
   Button,
   Container,
-  Divider,
-  Grid,
   Header,
-  Icon,
-  Image,
-  List,
-  Menu,
   Segment,
-  Visibility,
   Form
 } from 'semantic-ui-react'
 
