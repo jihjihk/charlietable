@@ -194,7 +194,7 @@ export default class NewEvent extends Component {
     };
 
     getCityOptions(input, callback){
-    
+
     clearTimeout(this.changeCityListener);
      this.setState({
           setCity:false
@@ -213,7 +213,8 @@ export default class NewEvent extends Component {
         };
       
         request(options, function(error, response, body) {
-          var responseVal=  JSON.parse(response.body).location_suggestions
+          if(response && response.body){
+            var responseVal=  JSON.parse(response.body).location_suggestions
             for (var i=0; i<responseVal.length;i++){
               var option = {
                 value: responseVal[i].id.toString(),
@@ -227,7 +228,9 @@ export default class NewEvent extends Component {
               // CAREFUL! Only set this to true when there are no more options,
               // or more specific queries will not be sent to the server.
               complete: true
-          });
+           });
+          }
+          
       });
 
     }, 500);
@@ -254,6 +257,7 @@ export default class NewEvent extends Component {
         };
         
         request(options, function(error, response, body) {
+          if(response && response.body){
           var responseVal=  JSON.parse(response.body).cuisines
           for (var i=0; i<responseVal.length;i++){
               var option = {
@@ -269,6 +273,7 @@ export default class NewEvent extends Component {
               // or more specific queries will not be sent to the server.
               complete: true
           });
+        }
       });
 
     }, 500);
@@ -295,7 +300,7 @@ export default class NewEvent extends Component {
         };
         
         request(options, function(error, response, body) {
-
+          if(response && response.body){
           var responseVal=  JSON.parse(response.body).restaurants
          
             for (var i=0; i<responseVal.length;i++){
@@ -312,6 +317,7 @@ export default class NewEvent extends Component {
               // or more specific queries will not be sent to the server.
               complete: true
           });
+        }
       });
 
     }, 500);
