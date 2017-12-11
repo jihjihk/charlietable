@@ -4,7 +4,6 @@ import {
   Button,
   Container,
   Header,
-  Icon,
   Segment,
   Grid,
   Image
@@ -18,16 +17,16 @@ export default class Home extends Component {
           inverted
           textAlign='center'
           style={{ minHeight: 700, padding: '1em 0em', background: 'linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url("https://media.brides.com/photos/59567e4eec147364a0686f67/master/pass/Julie&Mathieu20161014_10.jpg")',
-                    backgroundRepeat: 'no-repeat', backgroundPosition: 'center', backgroundSize: 'cover', opacity:'0.9'}}
+                    backgroundRepeat: 'no-repeat', backgroundPosition: 'center', backgroundSize: 'cover', opacity:'0.85'}}
           vertical
 
         >
-          <Container text>
+          <Container>
             <Header
               as='h1'
               content='The Dinner Party You Choose'
               inverted
-              style={{ fontSize: '4em', fontWeight: 'bold', marginBottom: 0, marginTop: '3em' }}
+              style={{ fontSize: '4em', fontWeight: 'bold', marginBottom: 0, marginTop: '4em' }}
             />
             <Header
               as='h2'
@@ -38,7 +37,6 @@ export default class Home extends Component {
             <Link to="/dining">
               <Button primary size='huge' style={{ margin:"1em"}}>
                 Find Dinners Near You
-                <Icon name='right arrow' />
               </Button>
             </Link>
           </Container>

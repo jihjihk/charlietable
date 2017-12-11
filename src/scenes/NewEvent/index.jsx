@@ -26,7 +26,7 @@ const DATA = require('../../data/interests');
   
 function recordUserPreference(eventCreated){
 
-  //update DB on the user's preferences, ensure this is reflected 
+  //update DB on the user's preferences, ensure this is reflected
   //for the next time that user makes a choice.
 
 
@@ -318,17 +318,19 @@ export default class NewEvent extends Component {
 
   };
 
+
   handleChange(e) {
     if(e._isAMomentObject){
       this.setState({time: e});
     }
     else {
-      this.setState( 
-        { [e.target.name]: e.target.value } 
+      this.setState(
+        { [e.target.name]: e.target.value }
         )
       }
   }
   
+
   handleSelectChange (value) {
     this.setState({
       conversationTopic: value
@@ -365,11 +367,11 @@ export default class NewEvent extends Component {
       const result= verifyInput(event);
 
       if(result.success){
-        
+
         if(!verifyEventUnique(event)){
-        
+
         alert("there already exists an event just like this.")
-        
+
         }else{
 
           alert(result.success);
@@ -436,14 +438,42 @@ export default class NewEvent extends Component {
     // this.UserList(group);
 
   }
-  
+
   render() {
     var options = DATA.INTERESTS;
     return (
       <div>
+        <Segment
+          textAlign='center'
+          style={{ minHeight: 400, padding: '1em 0em', background: 'linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url("https://static1.squarespace.com/static/51a7e8d4e4b02f202602477c/t/54f0dc0ae4b013baf3fe1891/1425071144740/deliberateLIFE-Backyard+Dinner+Party-0064.jpg?format=1500w")',
+                    backgroundRepeat: 'no-repeat', backgroundPosition: 'center', backgroundSize: 'cover', opacity:'0.9'}}
+          vertical
+          inverted
+        >
+          <Container>
+            <Header
+              as='h1'
+              content='Organize Your Own'
+              inverted
+              style={{ fontSize: '4em', fontWeight: 'bold', marginBottom: '0.5em', marginTop: '2em' }}
+            />
+            <Header
+              as='h2'
+              inverted
+              content='Host at your favorite restaurant, without the hassle'
+              style={{ fontSize: '2em', fontWeight: 'normal', marginBottom:'2em' }}
+            />
+          </Container>
+        </Segment>
         <Segment style={{ padding: '8em 0em' }} vertical>
-          <Header as="h1" textAlign="center" content="Host your own dinner party at a restaurant" />
           <Container text>
+            <Header
+              as='h1'
+              content='Tell us about the event'
+              textAlign='center'
+              style={{ marginBottom: '1em' }}
+              />
+
               <Form onSubmit={this.handleSubmit}>
                 <div className="section">
                  <Header as="h3">Event Name</Header>
@@ -486,8 +516,8 @@ export default class NewEvent extends Component {
                     placeholder="Which restaurant would you prefer?"
                   />
                 </div>   
-                <Header as="h3">Pick 3 Potential Conversation Topics</Header>
                 <div className="section">
+                  <Header as="h3">Pick 3 Potential Conversation Topics</Header>
                   <Select
                     closeOnSelect={!this.state.stayOpen}
                     multi
@@ -499,7 +529,7 @@ export default class NewEvent extends Component {
                     removeSelected={this.state.removeSelected}
                   />
                 </div>                    
-                <Header as="h3">Time and Date</Header>
+                <Header as="h4">Time and Date</Header>
                 <DatePicker
                     selected={this.state.time}
                     onChange={this.handleChange}
