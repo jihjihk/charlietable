@@ -91,12 +91,14 @@ export default class Profile extends Component {
         if(userID == data[key].creator){
           console.log("yes")
           this.state.newProfile= false;
-          this.state.userInterests= data[key].userInterests;
-          this.state.age= data[key].userAge;
-          this.state.occupation= data[key].userOccupation
-          this.state.languages= data[key].userLanguages
-          this.state.gender= data[key].userGender
-          console.log(this.state)
+           this.setState({
+            userInterests: data[key].userInterests,
+            age: data[key].userAge,
+            occupation: data[key].userOccupation,
+            languages: data[key].userLanguages,
+            gender: data[key].userGender
+  });
+    
         }
     } )
     
@@ -146,7 +148,7 @@ handleSubmit(e) {
   componentWillMount() {
     const user = auth.currentUser;
     //const theProfile= this.handleProfileCreation(user.G)
-    //this.setState({newProfile: this.handleProfileCreation(user.G) });
+    this.setState({newProfile: this.handleProfileCreation(user.G) });
 
   }
 
@@ -166,18 +168,19 @@ handleSubmit(e) {
       <div>
         <Segment>
 
-          { newProfile ?
+          { !newProfile ?
 
             <Container text>
 
             <Header as="h1" textAlign="center"> My profile</Header>
-            <Header as="h3"> {"Gender"+this.state.gender}</Header>
-            <Header as="h3"> {"Interests"+this.state.userInterests} </Header>
-            <Header as="h3" > {"Age" + this.state.age}</Header>
-            <Header as="h3" >{"Languages" +this.state.languages}</Header>
-            <Header as="h3" > {"Occupation" +this.state.occupation} </Header>
-            <Header as="h3" > {"Location" +this.state.location} </Header>
+            <Header as="h3"> {"Gender: "+this.state.gender}</Header>
+            <Header as="h3"> {"Interests: "+this.state.userInterests} </Header>
+            <Header as="h3" > {"Age: " + this.state.age}</Header>
+            <Header as="h3" >{"Languages: " +this.state.languages}</Header>
+            <Header as="h3" > {"Occupation: " +this.state.occupation} </Header>
+            <Header as="h3" > {"Location: " +this.state.location} </Header>
             </Container>
+          
           :
 
             <Container text>
