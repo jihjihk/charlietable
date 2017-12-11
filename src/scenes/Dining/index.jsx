@@ -10,7 +10,7 @@ import {
 } from 'semantic-ui-react';
 
 import EventTile from './components/EventTile.jsx';
-import RSVP from './rsvp.jsx';
+//import RSVP from './rsvp.jsx';
 
 
 export default class Dining extends Component{
@@ -51,7 +51,7 @@ export default class Dining extends Component{
         this.setState({ user });
       }
     });
-    console.log("Testing Tile");
+
   }
 
   componentWillMount = () => {
@@ -63,7 +63,6 @@ export default class Dining extends Component{
       snapshot.forEach(childSnapshot => {//for each event assign a new ID
         let temp = [];
         var key = childSnapshot.key;
-        console.log("Child Key "+key);
         this.setState({buttonId: key});//event id
         temp[0] = key;
 
@@ -120,16 +119,7 @@ export default class Dining extends Component{
   }
 
   //registering RSVP data and changing the database accordingl
-  // handleChange(){
-  //   console.log("CLikcing on Button: ");
-  //   const id = "-L-qpHhJ7fEvE6sWZI84";
-  //   const eventsRef = db.ref('events'/${buttonId});
-  //   const.user = auth.currentUser;
-  //
-  //
-  //
-  // }
-  //
+
 
   render(){
     return(
