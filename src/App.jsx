@@ -14,6 +14,7 @@ import {
   Image,
   Menu,
   Segment,
+  Header
 } from 'semantic-ui-react'
 
 import './index.css';
@@ -22,7 +23,6 @@ import Dining from './scenes/Dining';
 import Profile from './scenes/Profile';
 import NewEvent from './scenes/NewEvent';	
 import { auth, provider } from './services/firebase.js';
-// import NewEvent from './scenes/NewEvent // <Route path="/newevent" component={NewEvent}/>
 
 function PrivateRoute ({component: Component, user, authed, ...rest}) {
   return (
@@ -95,7 +95,16 @@ export default class App extends Component {
   }
 
   render () {
-    return this.state.loading === true ? <h1>Loading</h1> :(
+    var Spinner = require('react-spinkit')
+    return this.state.loading === true ?
+      <Segment
+        textAlign='center'
+        vertical>
+        <Container textAlign='center'>
+          <Spinner name="chasing-dots" color="coral" />
+        </Container>
+      </Segment>
+    :(
       <Router>
         <div>
           <Segment
@@ -105,7 +114,7 @@ export default class App extends Component {
           >
             <Container>
               <Menu fixed='top' size='large' inverted>
-                <Menu.Item as='logo'><Image style={{ marginLeft: '1em' }} src='logo.png' /></Menu.Item>
+                <Menu.Item as='logo'><Link to="/"><Image style={{ marginLeft: '1em' }} src='logo.png' /></Link></Menu.Item>
                 <Menu.Item as='home'><Link to="/">Home</Link></Menu.Item>
                 <Menu.Item as='dining'><Link to="/dining">Explore</Link></Menu.Item>
                 <Menu.Item as='newevent'><Link to="/newevent">Organize</Link></Menu.Item>
