@@ -162,7 +162,8 @@ export default class NewEvent extends Component {
     this.getCityOptions = this.getCityOptions.bind(this);
     this.changedCuisineOptions= this.changedCuisineOptions.bind(this);
     this.getCuisineOptions=this.getCuisineOptions.bind(this);
-
+    this.changedVenueOptions= this.changedVenueOptions.bind(this);
+    this.getVenueOptions=this.getVenueOptions.bind(this);
 
     }
 
@@ -181,6 +182,14 @@ export default class NewEvent extends Component {
       this.setState({
         setCuisine:true,
         cuisine: value
+      });
+    };
+
+    changedVenueOptions(value){ 
+
+      this.setState({
+        setVenue:true,
+        venue: value
       });
     };
 
@@ -246,16 +255,57 @@ export default class NewEvent extends Component {
         
         request(options, function(error, response, body) {
           var responseVal=  JSON.parse(response.body).cuisines
-          console.log(responseVal);
           for (var i=0; i<responseVal.length;i++){
               var option = {
                 value: responseVal[i].cuisine.cuisine_id.toString(),
                 label: responseVal[i].cuisine.cuisine_name
               }
-              console.log(option);
               returnArr.push(option);
             }      
         
+          callback(null, {
+              options: returnArr,
+              // CAREFUL! Only set this to true when there are no more options,
+              // or more specific queries will not be sent to the server.
+              complete: true
+          });
+      });
+
+    }, 500);
+
+  };
+
+  getVenueOptions(input, callback){
+    
+    clearTimeout(this.changeVenueListener);
+     this.setState({
+          setVenue:false
+      });
+
+    this.changeVenueListener = setTimeout( () => {
+      var returnArr=[];
+
+      var options = {
+            method: 'GET',
+            url: API_END_POINT + '/search?entity_type=city&entity_id='+this.state.city.value+'&cuisines='+this.state.cuisine.value+'&q='+input,
+            headers: {
+                'user-key': ACCESS_TOKEN,
+                'content-type': 'application/json'
+            }
+        };
+        
+        request(options, function(error, response, body) {
+
+          var responseVal=  JSON.parse(response.body).restaurants
+         
+            for (var i=0; i<responseVal.length;i++){
+              var option = {
+                value: responseVal[i].restaurant.id.toString(),
+                label: responseVal[i].restaurant.name,
+                location: responseVal[i].restaurant.location
+              }
+              returnArr.push(option);
+            }      
           callback(null, {
               options: returnArr,
               // CAREFUL! Only set this to true when there are no more options,
@@ -395,10 +445,11 @@ export default class NewEvent extends Component {
           <Header as="h1" textAlign="center" content="Host your own dinner party at a restaurant" />
           <Container text>
               <Form onSubmit={this.handleSubmit}>
-                <Form.Group>
+                <div className="section">
+                 <Header as="h3">Event Name</Header>
                   <Form.Input label='Event Name' placeholder='What is the event called?' type="text" name="eventName" 
                     onChange={this.handleChange} value={this.state.eventName} />
-                </Form.Group>
+                </div>
                 <div className="section">
                  <Header as="h3">City</Header>
                   <Async
@@ -423,11 +474,18 @@ export default class NewEvent extends Component {
                     placeholder="Which cuisine do you like?"
                   />
                 </div>   
-                <Form.Group>
-                
-                  <Form.Input label='Venue Name' placeholder="Which restaurant/bar will it be at?" type="text" name="venue" 
-                    onChange={this.handleChange} value={this.state.venue} />
-                </Form.Group>
+                <div className="section">
+                 <Header as="h3">Venue</Header>
+                  <Async
+                    className="venue"
+                    autoload={false}
+                    value={this.state.venue}
+                    closeOnSelect={!this.state.stayOpen}
+                    onChange={this.changedVenueOptions}
+                    loadOptions={this.getVenueOptions}
+                    placeholder="Which restaurant would you prefer?"
+                  />
+                </div>   
                 <Header as="h3">Pick 3 Potential Conversation Topics</Header>
                 <div className="section">
                   <Select

@@ -180,9 +180,12 @@ button {
 .field{
 
   width: 50%;
+  padding-bottom: 1rem;
 }
 
 
-
+.Select{
+  padding-bottom: 1rem;
+}
 
 
