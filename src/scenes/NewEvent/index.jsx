@@ -22,7 +22,6 @@ var request = require('request');
 var ACCESS_TOKEN = '3265b2063d0d33920ef1429db8936e6f';
 var API_END_POINT = 'https://developers.zomato.com/api/v2.1';
 const DATA = require('../../data/interests');
-
   
 function recordUserPreference(eventCreated){
 
@@ -483,7 +482,7 @@ export default class NewEvent extends Component {
               <Form onSubmit={this.handleSubmit}>
                 <div className="section">
                  <Header as="h3">Event Name</Header>
-                  <Form.Input label='Event Name' placeholder='What is the event called?' type="text" name="eventName" 
+                  <Form.Input label='Event Name' placeholder='What would you like to call the dinner?' type="text" name="eventName" 
                     onChange={this.handleChange} value={this.state.eventName} />
                 </div>
                 <div className="section">
@@ -492,7 +491,6 @@ export default class NewEvent extends Component {
                     className="city"
                     autoload={false}
                     value={this.state.city}
-                    closeOnSelect={!this.state.stayOpen}
                     onChange={this.changedCityOptions}
                     loadOptions={this.getCityOptions}
                     placeholder="Which city is this event held at?"
@@ -504,7 +502,6 @@ export default class NewEvent extends Component {
                     className="cuisine"
                     autoload={false}
                     value={this.state.cuisine}
-                    closeOnSelect={!this.state.stayOpen}
                     onChange={this.changedCuisineOptions}
                     loadOptions={this.getCuisineOptions}
                     placeholder="Which cuisine do you like?"
@@ -516,7 +513,6 @@ export default class NewEvent extends Component {
                     className="venue"
                     autoload={false}
                     value={this.state.venue}
-                    closeOnSelect={!this.state.stayOpen}
                     onChange={this.changedVenueOptions}
                     loadOptions={this.getVenueOptions}
                     placeholder="Which restaurant would you prefer?"
