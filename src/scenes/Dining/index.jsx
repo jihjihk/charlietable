@@ -7,6 +7,7 @@ import {
   Grid,
   Header,
   Segment,
+  Modal,
 } from 'semantic-ui-react';
 
 import EventTile from './components/EventTile.jsx';
@@ -119,8 +120,6 @@ export default class Dining extends Component{
   }
 
   //registering RSVP data and changing the database accordingl
-
-
   render(){
     return(
       <div>
@@ -146,6 +145,7 @@ export default class Dining extends Component{
             />
           </Container>
         </Segment>
+
         <Segment vertical>
           <Grid columns={4} container stackable verticalAlign="middle" centered>
             {this.makeTiles()}
