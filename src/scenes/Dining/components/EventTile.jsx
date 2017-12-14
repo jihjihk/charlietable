@@ -4,7 +4,8 @@ import {
   Grid,
   Image,
   Icon,
-  Modal
+  Modal,
+  Header
 } from 'semantic-ui-react';
 //import RSVP from '../rsvp.jsx';
 import { auth, db } from '../../../services/firebase.js';
@@ -38,11 +39,33 @@ export default class EventTile extends Component{
 
   render(){
     return (
-      <Grid.Column>
-        <Image src={this.props.src} style={{margin:'1em', width:'250px', height:'170px', overflow:'hidden'}}/>
-        <span>{this.props.eventName}<br />{this.props.food} <br /> {this.props.venue}</span> <br />
+      <Grid.Column textAlign="center">
+        <Image src={this.props.src} style={{backgroundPosition: 'center', margin:'0.5em', width:'250px', height:'170px', overflow:'hidden'}}/>
+        <Header
+          as='h2'
+          content={this.props.eventName}
+        />
+        <h3 style={{fontSize:'1.2em', marginTop:'1em'}}>{this.props.venue}</h3>
+        <h4 style={{fontSize:'1.2em', marginTop:'0.5em', fontWeight:"normal"}}>{this.props.food}</h4>
         <Timestamp time={this.props.timePlace} format="full" includeDay />
-        <Button style={{ margin:'1em'}} id={this.props.id} primary size='medium' onClick={this.handleSubmit.bind(this)}>RSVP<Icon name='right arrow' /></Button>
+        
+        <Modal dimmer='blurring' basic size='small' trigger={
+          <Button
+            style={{ margin:'1em'}}
+            id={this.props.id}
+            primary size='medium'
+            onClick={this.handleSubmit.bind(this)}>RSVP</Button>
+          }>
+          <Header as="h1" content='Your spot was confirmed!' />
+          <Modal.Content>
+            <p>We will send you a confirmation email for attending the {this.props.eventName} event.</p>
+          </Modal.Content>
+          <Modal.Actions>
+            <Button positive color='green' inverted>
+              <Icon name='checkmark' /> Got it.
+            </Button>
+          </Modal.Actions>
+        </Modal>
       </Grid.Column>
     );
   }
