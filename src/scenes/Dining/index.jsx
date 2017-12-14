@@ -25,6 +25,7 @@ export default class Dining extends Component{
       venue: '',
       conversationTopic: [],
       creator: '',
+      eventName: '',
       images : [],
       cuisines : [],
       sources : [],
@@ -71,34 +72,47 @@ export default class Dining extends Component{
         components to the temporary array that will build the event tile**/
         childSnapshot.forEach(childSnapshot => {
           var childKey = childSnapshot.key;
-          var childVal = childSnapshot.val();
+          if(childKey == "eventName"){
+            this.setState({eventName: childSnapshot.val()});
+            temp[5] = childSnapshot.val();
+          }
+
           if(childKey  === "time"){//if it is the time attribute
-            this.setState({time : childVal});
-            temp[1] = childVal;
+            this.setState({time : childSnapshot.val()});
+            temp[1] = childSnapshot.val();
           }
           if(childKey === "venue"){//if it is the venue attribute
-            this.setState({location : childVal});
-            temp[2] = childVal;
+            childSnapshot.forEach(childSnapshot => {
+              if(childSnapshot.key == "label"){
+                this.setState({location : childSnapshot.val()});
+                temp[2] = childSnapshot.val();
+              }
+            })
           }
           if(childKey === "cuisine"){//if it is the cuisine attribute
-            this.setState({cuisine: childVal});
-            temp[3] = childVal;
+            childSnapshot.forEach(childSnapshot => {
+              if(childSnapshot.key == "label"){
+                this.setState({cuisine: childSnapshot.val()});
+                temp[3] = childSnapshot.val();
 
-            /**once the cuisine attribute is found,
-            look through the image database to find the corresponding image location**/
-            imageRef.once("value")
-              .then((newSnapshot) => {
-                newSnapshot.forEach(newChildSnapshot => {
-                  if(newChildSnapshot.key === childVal){
-                    this.setState({source: newChildSnapshot.val()})
-                    temp[4] = newChildSnapshot.val();
-                    joined = this.state.images.push(temp);
+                /**once the cuisine attribute is found,
+                look through the image database to find the corresponding image location**/
+                imageRef.once("value")
+                  .then((newSnapshot) => {
+                    newSnapshot.forEach(newChildSnapshot => {
+                      if(newChildSnapshot.key === childSnapshot.val()){
+                        this.setState({source: newChildSnapshot.val()})
+                        temp[4] = newChildSnapshot.val();
+                        joined = this.state.images.push(temp);
 
-                  }
-                })
-              }, (error) => {
-                console.log("ERROR:",error)
-              });
+                      }
+                    })
+                  }, (error) => {
+                    console.log("ERROR:",error)
+                  });
+              }
+
+            })
           }
         });
       });
@@ -112,7 +126,7 @@ export default class Dining extends Component{
   }
 
   createEventTile = function(data){
-    return (<EventTile src={data[4]} key={data[0]} venue={data[2]} timePlace={data[1]} food={data[3]} id={data[0]}/>);
+    return (<EventTile src={data[4]} key={data[0]} venue={data[2]} timePlace={data[1]} food={data[3]} id={data[0]} eventName={data[5]}/>);
   }
 
   makeTiles = function(){

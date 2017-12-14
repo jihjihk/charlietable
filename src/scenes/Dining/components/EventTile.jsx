@@ -14,7 +14,6 @@ const Timestamp = require('react-timestamp')
 
 export default class EventTile extends Component{
 
-
   handleSubmit(){
     const user = auth.currentUser.uid;
     let users = [];
@@ -32,8 +31,8 @@ export default class EventTile extends Component{
     }).then(()=>{
       users.push(user);
       userData.update({participants : users});
+      ('#ui_modal').modal('hide');
     });
-
   }
 
 
@@ -41,8 +40,7 @@ export default class EventTile extends Component{
     return (
       <Grid.Column>
         <Image src={this.props.src} style={{margin:'1em', width:'250px', height:'170px', overflow:'hidden'}}/>
-
-        <span>{this.props.food} at {this.props.venue}</span> <br />
+        <span>{this.props.eventName}<br />{this.props.food} <br /> {this.props.venue}</span> <br />
         <Timestamp time={this.props.timePlace} format="full" includeDay />
         <Button style={{ margin:'1em'}} id={this.props.id} primary size='medium' onClick={this.handleSubmit.bind(this)}>RSVP<Icon name='right arrow' /></Button>
       </Grid.Column>
