@@ -214,20 +214,24 @@ export default class NewEvent extends Component {
         request(options, function(error, response, body) {
           if(response && response.body){
             var responseVal=  JSON.parse(response.body).location_suggestions
-            for (var i=0; i<responseVal.length;i++){
+            if(responseVal){
+               for (var i=0; i<responseVal.length;i++){
               var option = {
                 value: responseVal[i].id.toString(),
                 label: responseVal[i].name
               }
               returnArr.push(option);
-            }      
+              }      
         
-          callback(null, {
-              options: returnArr,
-              // CAREFUL! Only set this to true when there are no more options,
-              // or more specific queries will not be sent to the server.
-              complete: true
-           });
+            callback(null, {
+                options: returnArr,
+                // CAREFUL! Only set this to true when there are no more options,
+                // or more specific queries will not be sent to the server.
+                complete: true
+              });
+            }else{
+              alert("Error in loading cities. Try again?");
+            }
           }
           
       });
@@ -258,7 +262,8 @@ export default class NewEvent extends Component {
         request(options, function(error, response, body) {
           if(response && response.body){
           var responseVal=  JSON.parse(response.body).cuisines
-          for (var i=0; i<responseVal.length;i++){
+          if(responseVal){
+            for (var i=0; i<responseVal.length;i++){
               var option = {
                 value: responseVal[i].cuisine.cuisine_id.toString(),
                 label: responseVal[i].cuisine.cuisine_name
@@ -272,6 +277,9 @@ export default class NewEvent extends Component {
               // or more specific queries will not be sent to the server.
               complete: true
           });
+          }else{
+            alert("please first pick your location");
+          }
         }
       });
 
@@ -301,21 +309,24 @@ export default class NewEvent extends Component {
         request(options, function(error, response, body) {
           if(response && response.body){
           var responseVal=  JSON.parse(response.body).restaurants
-         
-            for (var i=0; i<responseVal.length;i++){
-              var option = {
-                value: responseVal[i].restaurant.id.toString(),
-                label: responseVal[i].restaurant.name,
-                location: responseVal[i].restaurant.location
-              }
-              returnArr.push(option);
-            }      
-          callback(null, {
-              options: returnArr,
-              // CAREFUL! Only set this to true when there are no more options,
-              // or more specific queries will not be sent to the server.
-              complete: true
-          });
+            if(responseVal){
+                for (var i=0; i<responseVal.length;i++){
+                  var option = {
+                    value: responseVal[i].restaurant.id.toString(),
+                    label: responseVal[i].restaurant.name,
+                    location: responseVal[i].restaurant.location
+                  }
+                  returnArr.push(option);
+                }      
+              callback(null, {
+                  options: returnArr,
+                  // CAREFUL! Only set this to true when there are no more options,
+                  // or more specific queries will not be sent to the server.
+                  complete: true
+              });
+            }else{
+              alert("no restaurants matching such conditions");
+            } 
         }
       });
 
