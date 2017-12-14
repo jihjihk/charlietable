@@ -130,12 +130,12 @@ export default class Dining extends Component{
         vertical
         inverted
         >
-          <Container text>
+          <Container>
             <Header
               as='h1'
               content='Choose Your Dinner'
               inverted
-              style={{ fontSize: '4em', fontWeight: 'normal', marginBottom: '0.5em', marginTop: '2em' }}
+              style={{ fontSize: '4em', fontWeight: 'bold', marginBottom: '0.5em', marginTop: '2em' }}
             />
             <Header
               as='h2'

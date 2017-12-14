@@ -7,7 +7,7 @@ import 'react-datepicker/dist/react-datepicker.css';
 import Select from 'react-select';
 import 'react-select/dist/react-select.css';
 import './style.css';
-
+import { Async } from 'react-select';
 import { db, auth } from '../../services/firebase.js';
 import {
   Button,
@@ -17,25 +17,52 @@ import {
   Form
 } from 'semantic-ui-react'
 
-const DATA = require('../../data/interests');
 
+var request = require('request');
+var ACCESS_TOKEN = '3265b2063d0d33920ef1429db8936e6f';
+var API_END_POINT = 'https://developers.zomato.com/api/v2.1';
+const DATA = require('../../data/interests');
+  
 function recordUserPreference(eventCreated){
 
   //update DB on the user's preferences, ensure this is reflected
   //for the next time that user makes a choice.
 
+
+
 }
 
 
-function determineCity(inputCity){
+function determineCity(inputCity, callback){
+    
+   var returnArr=[];
 
-  // check if the city exists in our own db, save a call to API.
-
-  // make Zomato API call based on inputCity.
-
-  // save the city values to db if it didn't exist before.
-
-  //return 1. name of city, 2. coords, 3. cityID as a JSON obj
+   var options = {
+        method: 'GET',
+        url: API_END_POINT + '/cities?q='+inputCity,
+        headers: {
+            'user-key': ACCESS_TOKEN,
+            'content-type': 'application/json'
+        }
+    };
+  
+    request(options, function(error, response, body) {
+        var responseVal=  JSON.parse(response.body).location_suggestions
+        for (var i=0; i<responseVal.length;i++){
+          var option = {
+            value: responseVal[i].id,
+            label: responseVal[i].name
+          }
+          returnArr.push(option);
+        }       
+    });
+    callback(null, {
+        options: returnArr,
+          // CAREFUL! Only set this to true when there are no more options,
+          // or more specific queries will not be sent to the server.
+        complete: true
+    });
+    // return returnArr;
 }
 
 function determineCuisines(inputCityId){
@@ -102,7 +129,6 @@ function verifyEventUnique(inputObj){
 
 
 
-
 export default class NewEvent extends Component {
   constructor() {
     super()
@@ -116,33 +142,219 @@ export default class NewEvent extends Component {
       venue: '',
       cuisine: '',
       conversationTopic: [],
-      creator: ''
+      creator: '',
+      possibleCities:[],
+      possibleCuisines:[],
+      possibleVenues:[],
+      changeCityListener: 0,
+      changeCuisineListener: 0,
+      changeVenueListener: 0,
+      setCity: false,
+      setCuisine: false,
+      setVenue: false,
+
     }
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleSelectChange = this.handleSelectChange.bind(this);
+    this.changedCityOptions = this.changedCityOptions.bind(this);
+    this.getCityOptions = this.getCityOptions.bind(this);
+    this.changedCuisineOptions= this.changedCuisineOptions.bind(this);
+    this.getCuisineOptions=this.getCuisineOptions.bind(this);
+    this.changedVenueOptions= this.changedVenueOptions.bind(this);
+    this.getVenueOptions=this.getVenueOptions.bind(this);
 
-  }
+    }
 
+    changedCityOptions(value){ 
+
+      this.setState({
+        setCity:true,
+        city: value
+      });
+
+    };
+
+
+    changedCuisineOptions(value){ 
+
+      this.setState({
+        setCuisine:true,
+        cuisine: value
+      });
+    };
+
+    changedVenueOptions(value){ 
+
+      this.setState({
+        setVenue:true,
+        venue: value
+      });
+    };
+
+    getCityOptions(input, callback){
+
+    clearTimeout(this.changeCityListener);
+     this.setState({
+          setCity:false
+      });
+
+    this.changeCityListener = setTimeout( () => {
+      var returnArr=[];
+
+      var options = {
+            method: 'GET',
+            url: API_END_POINT + '/cities?q='+input,
+            headers: {
+                'user-key': ACCESS_TOKEN,
+                'content-type': 'application/json'
+            }
+        };
+      
+        request(options, function(error, response, body) {
+          if(response && response.body){
+            var responseVal=  JSON.parse(response.body).location_suggestions
+            if(responseVal){
+               for (var i=0; i<responseVal.length;i++){
+              var option = {
+                value: responseVal[i].id.toString(),
+                label: responseVal[i].name
+              }
+              returnArr.push(option);
+              }      
+        
+            callback(null, {
+                options: returnArr,
+                // CAREFUL! Only set this to true when there are no more options,
+                // or more specific queries will not be sent to the server.
+                complete: true
+              });
+            }else{
+              alert("Error in loading cities. Try again?");
+            }
+          }
+          
+      });
+
+    }, 500);
+
+  };
+
+  getCuisineOptions(input, callback){
+    
+    clearTimeout(this.changeCuisineListener);
+     this.setState({
+          setCuisine:false
+      });
+
+    this.changeCuisineListener = setTimeout( () => {
+      var returnArr=[];
+
+      var options = {
+            method: 'GET',
+            url: API_END_POINT + '/cuisines?city_id='+this.state.city.value,
+            headers: {
+                'user-key': ACCESS_TOKEN,
+                'content-type': 'application/json'
+            }
+        };
+        
+        request(options, function(error, response, body) {
+          if(response && response.body){
+          var responseVal=  JSON.parse(response.body).cuisines
+          if(responseVal){
+            for (var i=0; i<responseVal.length;i++){
+              var option = {
+                value: responseVal[i].cuisine.cuisine_id.toString(),
+                label: responseVal[i].cuisine.cuisine_name
+              }
+              returnArr.push(option);
+            }      
+        
+          callback(null, {
+              options: returnArr,
+              // CAREFUL! Only set this to true when there are no more options,
+              // or more specific queries will not be sent to the server.
+              complete: true
+          });
+          }else{
+            alert("please first pick your location");
+          }
+        }
+      });
+
+    }, 500);
+
+  };
+
+  getVenueOptions(input, callback){
+    
+    clearTimeout(this.changeVenueListener);
+     this.setState({
+          setVenue:false
+      });
+
+    this.changeVenueListener = setTimeout( () => {
+      var returnArr=[];
+
+      var options = {
+            method: 'GET',
+            url: API_END_POINT + '/search?entity_type=city&entity_id='+this.state.city.value+'&cuisines='+this.state.cuisine.value+'&q='+input,
+            headers: {
+                'user-key': ACCESS_TOKEN,
+                'content-type': 'application/json'
+            }
+        };
+        
+        request(options, function(error, response, body) {
+          if(response && response.body){
+          var responseVal=  JSON.parse(response.body).restaurants
+            if(responseVal){
+                for (var i=0; i<responseVal.length;i++){
+                  var option = {
+                    value: responseVal[i].restaurant.id.toString(),
+                    label: responseVal[i].restaurant.name,
+                    location: responseVal[i].restaurant.location
+                  }
+                  returnArr.push(option);
+                }      
+              callback(null, {
+                  options: returnArr,
+                  // CAREFUL! Only set this to true when there are no more options,
+                  // or more specific queries will not be sent to the server.
+                  complete: true
+              });
+            }else{
+              alert("no restaurants matching such conditions");
+            } 
+        }
+      });
+
+    }, 500);
+
+  };
 
 
   handleChange(e) {
     if(e._isAMomentObject){
       this.setState({time: e});
     }
-
     else {
       this.setState(
         { [e.target.name]: e.target.value }
         )
       }
-    }
+  }
+  
 
   handleSelectChange (value) {
     this.setState({
       conversationTopic: value
     });
   }
+
+
+
 
   handleSubmit(e) {
     e.preventDefault();
@@ -192,7 +404,16 @@ export default class NewEvent extends Component {
           venue: '',
           cuisine: '',
           conversationTopic: [],
-          creator: ''
+          creator: '',
+          possibleCities:[],
+          possibleCuisines:[],
+          possibleVenues:[],
+          changeCityListener: 0,
+          changeCuisineListener: 0,
+          changeVenueListener: 0,
+          setCity: false,
+          setCuisine: false,
+          setVenue: false,
         });
         //redirect to main page
         this.props.history.push('/');
@@ -204,9 +425,6 @@ export default class NewEvent extends Component {
         alert("please first login");
     }
 
-
-
-
   }
 
 
@@ -215,50 +433,104 @@ export default class NewEvent extends Component {
     auth.onAuthStateChanged((user) => {
       if (user) {
         this.setState({ user });
+        // this.getAPIData(this.props.group);
       }
     });
 
     const eventsRef = db.ref('events');
 
-    // eventsRef.on('value', (snapshot) => {
-    //   let events = snapshot.val();
-    //   let newState = [];
-    //   for (let event in events) {
-    //     newState.push({
-    //       log: event,
-    //       interest: events[event].interest,
-    //       cuisine: events[event].cuisine,
-    //       user: events[event].user
-    //     });
-    //   }
-    //   this.setState({
-    //     items: newState
-    //   });
-    // });
+    // this.callAPI(this.props.group);
+
+  }
+
+  componentWillReceiveProps(nextProps) {
+
+    // // Assuming parameter comes from url.
+    // // let group = window.location.toString().split("/")[*indexParameterLocated*];
+    // // this.UserList(group);
+
+    // // Assuming parameter comes from props that from parent component.
+    // let group = nextProps.group; // Maybe something like "groupTwo" 
+    // this.UserList(group);
+
   }
 
   render() {
     var options = DATA.INTERESTS;
     return (
       <div>
+        <Segment
+          textAlign='center'
+          style={{ minHeight: 400, padding: '1em 0em', background: 'linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url("https://static1.squarespace.com/static/51a7e8d4e4b02f202602477c/t/54f0dc0ae4b013baf3fe1891/1425071144740/deliberateLIFE-Backyard+Dinner+Party-0064.jpg?format=1500w")',
+                    backgroundRepeat: 'no-repeat', backgroundPosition: 'center', backgroundSize: 'cover', opacity:'0.9'}}
+          vertical
+          inverted
+        >
+          <Container>
+            <Header
+              as='h1'
+              content='Organize Your Own'
+              inverted
+              style={{ fontSize: '4em', fontWeight: 'bold', marginBottom: '0.5em', marginTop: '2em' }}
+            />
+            <Header
+              as='h2'
+              inverted
+              content='Host at your favorite restaurant, without the hassle'
+              style={{ fontSize: '2em', fontWeight: 'normal', marginBottom:'2em' }}
+            />
+          </Container>
+        </Segment>
         <Segment style={{ padding: '8em 0em' }} vertical>
-          <Header as="h1" textAlign="center" content="Host your own dinner party at a restaurant" />
           <Container text>
+            <Header
+              as='h1'
+              content='Tell us about the event'
+              textAlign='center'
+              style={{ marginBottom: '1em' }}
+              />
+
               <Form onSubmit={this.handleSubmit}>
-                <Form.Group>
-                  <Form.Input label='Event Name' placeholder='What is the event called?' type="text" name="eventName"
-                    onChange={this.handleChange} value={this.state.eventName} />
-                  <Form.Input label='City' placeholder='Where are you hosting it?' type="text" name="city"
-                    onChange={this.handleChange} value={this.state.city} />
-                </Form.Group>
-                <Form.Group>
-                  <Form.Input label='Venue Name' placeholder="Which restaurant/bar will it be at?" type="text" name="venue"
-                    onChange={this.handleChange} value={this.state.venue} />
-                  <Form.Input label='Cuisine' placeholder="French, Thai, or Beer?" type="text" name="cuisine"
-                    onChange={this.handleChange} value={this.state.cuisine} />
-                </Form.Group>
-                <Header as="h3">Pick 3 Potential Conversation Topics</Header>
                 <div className="section">
+                 <Header as="h3">Event Name</Header>
+                  <Form.Input label='Event Name' placeholder='What would you like to call the dinner?' type="text" name="eventName" 
+                    onChange={this.handleChange} value={this.state.eventName} />
+                </div>
+                <div className="section">
+                 <Header as="h3">City</Header>
+                  <Async
+                    className="city"
+                    autoload={false}
+                    value={this.state.city}
+                    onChange={this.changedCityOptions}
+                    loadOptions={this.getCityOptions}
+                    placeholder="Which city is this event held at?"
+                  />
+                </div>
+                <div className="section">
+                 <Header as="h3">Cuisine</Header>
+                  <Async
+                    className="cuisine"
+                    autoload={false}
+                    value={this.state.cuisine}
+                    onChange={this.changedCuisineOptions}
+                    loadOptions={this.getCuisineOptions}
+                    placeholder="Which cuisine do you like?"
+                  />
+                </div>   
+                <div className="section">
+                 <Header as="h3">Venue</Header>
+                  <Async
+                    className="venue"
+                    autoload={false}
+                    value={this.state.venue}
+                    onChange={this.changedVenueOptions}
+                    loadOptions={this.getVenueOptions}
+                    placeholder="Which restaurant would you prefer?"
+                  />
+                </div>   
+                <div className="section">
+                  <Header as="h3">Pick 3 Potential Conversation Topics</Header>
                   <Select
                     closeOnSelect={!this.state.stayOpen}
                     multi
@@ -269,8 +541,8 @@ export default class NewEvent extends Component {
                     value={this.state.conversationTopic}
                     removeSelected={this.state.removeSelected}
                   />
-                </div>
-                <Header as="h3">Time and Date</Header>
+                </div>                    
+                <Header as="h4">Time and Date</Header>
                 <DatePicker
                     selected={this.state.time}
                     onChange={this.handleChange}

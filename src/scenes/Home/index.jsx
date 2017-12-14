@@ -4,10 +4,12 @@ import {
   Button,
   Container,
   Header,
-  Icon,
   Segment,
   Grid,
-  Image
+  Image,
+  List,
+  Label,
+  Icon
 } from 'semantic-ui-react'
 
 export default class Home extends Component {
@@ -18,16 +20,16 @@ export default class Home extends Component {
           inverted
           textAlign='center'
           style={{ minHeight: 700, padding: '1em 0em', background: 'linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url("https://media.brides.com/photos/59567e4eec147364a0686f67/master/pass/Julie&Mathieu20161014_10.jpg")',
-                    backgroundRepeat: 'no-repeat', backgroundPosition: 'center', backgroundSize: 'cover', opacity:'0.9'}}
+                    backgroundRepeat: 'no-repeat', backgroundPosition: 'center', backgroundSize: 'cover', opacity:'0.85'}}
           vertical
 
         >
-          <Container text>
+          <Container>
             <Header
               as='h1'
               content='The Dinner Party You Choose'
               inverted
-              style={{ fontSize: '4em', fontWeight: 'bold', marginBottom: 0, marginTop: '3em' }}
+              style={{ fontSize: '4em', fontWeight: 'bold', marginBottom: 0, marginTop: '4em' }}
             />
             <Header
               as='h2'
@@ -38,7 +40,6 @@ export default class Home extends Component {
             <Link to="/dining">
               <Button primary size='huge' style={{ margin:"1em"}}>
                 Find Dinners Near You
-                <Icon name='right arrow' />
               </Button>
             </Link>
           </Container>
@@ -106,29 +107,103 @@ export default class Home extends Component {
           <Grid container stackable verticalAlign="middle" textAlign='center' style={{margin: '2em'}}>
             <Grid.Row columns={3}>
               <Grid.Column>
-                <Image centered src="http://cook.fnr.sndimg.com/content/dam/images/cook/fullset/2011/1/6/0/CCEV103_Margherita-Pizza_s4x3.jpg.rend.hgtvcom.966.725.suffix/1416867304309.jpeg" size='medium' style={{width:'330px', height:'260px', overflow:'hidden'}} />
+                <Image centered src="http://cook.fnr.sndimg.com/content/dam/images/cook/fullset/2011/1/6/0/CCEV103_Margherita-Pizza_s4x3.jpg.rend.hgtvcom.966.725.suffix/1416867304309.jpeg" size='medium' style={{backgroundPosition: 'center', width:'330px', height:'260px', overflow:'hidden'}} />
                 <Header
-                  as='h3'
-                  content='Dinner Option 1:'
+                  as='h1'
+                  content='Hiking & Diving'
                 />
-                <p style={{fontSize:'1em'}}>Italian Food at Little Italy: 7pm on Tuesday</p>
+                <List horizontal> 
+                  <List.Item>
+                    <List.Content>
+                      <Label style={{fontSize:"1em"}} as='a' color='teal'>
+                        Hiking
+                      </Label>
+                    </List.Content>
+                  </List.Item>
+                  <List.Item>
+                    <List.Content>
+                      <Label style={{fontSize:"1em"}} as='a' color='teal'>
+                        Exercise
+                      </Label>
+                    </List.Content>
+                  </List.Item>
+                  <List.Item>
+                    <List.Content>
+                      <Label style={{fontSize:"1em"}} as='a' color='teal'>
+                        Food & Dining
+                      </Label>
+                    </List.Content>
+                  </List.Item>
+                </List>
+                <p style={{fontSize:'1.5em', marginTop:'1em'}}>Italian at Little Italy</p>
+                <p>7pm on Tuesday</p>
+                <Button style={{ margin:'1em'}} primary size='medium'>RSVP<Icon name='right arrow' /></Button>
               </Grid.Column>
               <Grid.Column>
-                <Image centered src="https://www.romeing.it/wp-content/uploads/2017/03/rome-international-food-guide-1-e1489424047884.jpg" size='medium' style={{width:'330px', height:'260px', overflow:'hidden'}} />
+                <Image centered src="img/dinner.jpg" size='medium' style={{width:'330px', height:'260px', overflow:'hidden', backgroundPosition: 'center'}} />
                 <Header
-                  as='h3'
-                  content='Dinner Option 2:'
+                  as='h1'
+                  content='Coffee+Travel'
                 />
-                <p style={{fontSize:'1em'}}>Ethiopian Food at Bon Anne: 6pm on Monday</p>
+                <List horizontal> 
+                  <List.Item>
+                    <List.Content>
+                      <Label style={{fontSize:"1em"}} as='a' color='teal'>
+                        Coffee
+                      </Label>
+                    </List.Content>
+                  </List.Item>
+                  <List.Item>
+                    <List.Content>
+                      <Label style={{fontSize:"1em"}} as='a' color='teal'>
+                        Travel
+                      </Label>
+                    </List.Content>
+                  </List.Item>
+                  <List.Item>
+                    <List.Content>
+                      <Label style={{fontSize:"1em"}} as='a' color='teal'>
+                        Working Abroad
+                      </Label>
+                    </List.Content>
+                  </List.Item>
+                </List>
+                <p style={{fontSize:'1.5em', marginTop:'1em'}}>Ethiopian at Bonne Anne</p>
+                <p>6pm on Monday</p>
+                <Button style={{ margin:'1em'}} primary size='medium'>RSVP<Icon name='right arrow' /></Button>
               </Grid.Column>
               <Grid.Column>
-                <Image centered src="https://cdn.vox-cdn.com/thumbor/zXCcamd4pwv0u1Tqt5uhaONy-KE=/0x134:960x854/1200x900/filters:focal(0x134:960x854)/cdn.vox-cdn.com/uploads/chorus_image/image/52883105/babu_ji.0.0.jpg" size='medium' style={{width:'330px', height:'260px', overflow:'hidden'}} />
+                <Image centered src="https://cdn.vox-cdn.com/thumbor/zXCcamd4pwv0u1Tqt5uhaONy-KE=/0x134:960x854/1200x900/filters:focal(0x134:960x854)/cdn.vox-cdn.com/uploads/chorus_image/image/52883105/babu_ji.0.0.jpg" size='medium' style={{backgroundPosition: 'center', width:'330px', height:'260px', overflow:'hidden'}} />
                 <Header
-                  as='h3'
-                  content='Dinner Option 3:'
+                  as='h1'
+                  content='Vegetarians in Abu Dhabi'
                 />
-                <p style={{fontSize:'1em'}}>Indian Food at Sangeetha: 8pm on Wednesday</p>
-
+                <List horizontal> 
+                  <List.Item>
+                    <List.Content>
+                      <Label style={{fontSize:"1em"}} as='a' color='teal'>
+                        Vegetarian
+                      </Label>
+                    </List.Content>
+                  </List.Item>
+                  <List.Item>
+                    <List.Content>
+                      <Label style={{fontSize:"1em"}} as='a' color='teal'>
+                        Philanthropy
+                      </Label>
+                    </List.Content>
+                  </List.Item>
+                  <List.Item>
+                    <List.Content>
+                      <Label style={{fontSize:"1em"}} as='a' color='teal'>
+                        Animal Rights
+                      </Label>
+                    </List.Content>
+                  </List.Item>
+                </List>
+                <p style={{fontSize:'1.5em', marginTop:'1em'}}>Indian at Sangeetha</p>
+                <p>8pm on Wednesday</p>
+                <Button style={{ margin:'1em'}} primary size='medium'>RSVP<Icon name='right arrow' /></Button>
               </Grid.Column>
             </Grid.Row>
           </Grid>
