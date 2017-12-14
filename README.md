@@ -11,11 +11,27 @@ You can read more about the project purpose in the [wiki](https://github.com/jih
 
 We are using [Github Projects](https://github.com/jihjihk/charlietable/projects/1) to track our to-do/doing/done tasks. For each task, we are creating an issue, which is automatically pulled into the Project board.
 
-## Initial Mockups
-![Alt text](start.png)
-![Alt text](login.png)
-![Alt text](signup.png)
-![Alt text](dining.png)
+## Web App Screenshots
+
+### Home
+![Home](/public/screenshots/home.png)
+
+### Customize User Profile
+![createProfile](/public/screenshots/newprofile.png)
+
+### Display User Profile
+![createProfile](/public/screenshots/profile.png)
+
+### Explore Dining Events
+![explore](/public/screenshots/dining.png)
+
+### Create a New Event
+![create](/public/screenshots/newevent.png)
+
+### RSVP Confirmed Modal
+![create](/public/screenshots/confirm.png)
+
+
 
 ## UI
 For UI components, we are using [Semantic UI](https://react.semantic-ui.com/).
