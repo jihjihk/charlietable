@@ -3,7 +3,7 @@
 Software Engineering Fall 2017 Project by Dana, Peter, Megan, Jihyun
 
 ## About
-[Charlie Table](https://charlietable.bitballoon.com) is an interest-based social dining app that connects 4 (or more) strangers together for a meal. It will be a web app built with [React](https://facebook.github.io/react/) and [Firebase](https://firebase.google.com/).
+[Charlie Table](https://charlietable.com) is an interest-based social dining app that connects 4 (or more) strangers together for a meal. It will be a web app built with [React](https://facebook.github.io/react/) and [Firebase](https://firebase.google.com/).
 
 You can read more about the project purpose in the [wiki](https://github.com/jihjihk/charlietable/wiki/).
 
@@ -11,29 +11,31 @@ You can read more about the project purpose in the [wiki](https://github.com/jih
 
 We are using [Github Projects](https://github.com/jihjihk/charlietable/projects/1) to track our to-do/doing/done tasks. For each task, we are creating an issue, which is automatically pulled into the Project board.
 
-## Web App Screenshots
+## Slide Decks and Screenshots
 
-### Home
+The link to our project presentation for Software Engineering class is [here](https://docs.google.com/presentation/d/19gN0PgLORNQbltQgvEvU_SE8aenDIRUbSJ8KjoF-IRY/edit?usp=sharing).
+
+#### Home
 ![Home](/public/screenshots/home.png)
 
-### Customize User Profile
+#### Customize User Profile
 ![createProfile](/public/screenshots/newprofile.png)
 
-### Display User Profile
+#### Display User Profile
 ![createProfile](/public/screenshots/profile.png)
 
-### Explore Dining Events
+#### Explore Dining Events
 ![explore](/public/screenshots/dining.png)
 
-### Create a New Event
+#### Create a New Event
 ![create](/public/screenshots/newevent.png)
 
-### RSVP Confirmed Modal
+#### RSVP Confirmed Modal
 ![create](/public/screenshots/confirm.png)
 
+## Tech Stack
 
-
-## UI
+### UI
 For UI components, we are using [Semantic UI](https://react.semantic-ui.com/).
 
 ## Authentication and Database
