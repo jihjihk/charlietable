@@ -31,7 +31,7 @@ export default class EventTile extends Component{
     }).then(()=>{
       users.push(user);
       userData.update({participants : users});
-      ('#ui_modal').modal('hide');
+      //('#ui_modal').modal('hide');
     });
   }
 
